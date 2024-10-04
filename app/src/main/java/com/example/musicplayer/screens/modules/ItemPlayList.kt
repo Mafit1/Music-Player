@@ -24,7 +24,7 @@ import com.example.musicplayer.R
 
 
 @Composable
-fun PlayList(playListData: com.example.domain.models.PlayListData) {
+fun PlayList(playListData: PlayListData) {
     Card(
         modifier = Modifier
             .fillMaxWidth()

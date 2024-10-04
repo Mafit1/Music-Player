@@ -16,14 +16,15 @@ import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import com.example.domain.models.MusicTrackData
 import com.example.musicplayer.screens.modules.ItemMusicTrack
+import com.example.musicplayer.viewmodels.FullTrackListViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true)
 @Composable
-fun FullTrackListScreen() {
+fun FullTrackListScreen(
+    viewModel: FullTrackListViewModel
+) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -57,15 +58,15 @@ fun FullTrackListScreen() {
 }
 
 @Composable
-fun FullTrackList(paddingValues: PaddingValues) {
+private fun FullTrackList(paddingValues: PaddingValues) {
     LazyColumn(
         modifier = Modifier
             .padding(paddingValues)
     ) {
         itemsIndexed(
             listOf(
-                com.example.domain.models.MusicTrackData("One", "Metallica"),
-                com.example.domain.models.MusicTrackData("Chop Suey", "System of a Down")
+                MusicTrackData("One", "Metallica"),
+                MusicTrackData("Chop Suey", "System of a Down")
             )
         ) { index, item ->
             ItemMusicTrack(musicTrackData = item, index = index + 1)

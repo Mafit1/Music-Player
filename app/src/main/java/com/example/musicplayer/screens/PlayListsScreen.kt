@@ -29,11 +29,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.domain.models.PlayListData
 import com.example.musicplayer.screens.modules.PlayList
+import com.example.musicplayer.viewmodels.PlaylistsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true)
 @Composable
-fun PlayListsScreen() {
+fun PlayListsScreen(
+    viewModel: PlaylistsViewModel
+) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -68,7 +70,7 @@ fun PlayListsScreen() {
 
 
 @Composable
-fun PlayListsList(paddingValues: PaddingValues) {
+private fun PlayListsList(paddingValues: PaddingValues) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -76,40 +78,11 @@ fun PlayListsList(paddingValues: PaddingValues) {
     ) {
         itemsIndexed(
             listOf(
-                com.example.domain.models.PlayListData("abc", 1),
-                com.example.domain.models.PlayListData("cba", 2)
+                PlayListData("abc", 1),
+                PlayListData("cba", 2)
             )
         ) { _, item ->
             PlayList(playListData = item)
-        }
-    }
-}
-
-
-@Composable
-private fun TopBar() {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(Color.Gray)
-            .padding(8.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            text = "Моя медиатека",
-            style = TextStyle(fontSize = 28.sp)
-        )
-
-        IconButton(
-            onClick = {
-
-            }
-        ) {
-            Icon(
-                Icons.Default.Add,
-                contentDescription = null
-            )
         }
     }
 }

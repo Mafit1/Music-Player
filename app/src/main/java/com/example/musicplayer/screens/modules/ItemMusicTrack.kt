@@ -16,7 +16,7 @@ import com.example.domain.models.MusicTrackData
 
 @Preview(showBackground = true)
 @Composable
-fun ItemMusicTrack(musicTrackData: com.example.domain.models.MusicTrackData = com.example.domain.models.MusicTrackData(
+fun ItemMusicTrack(musicTrackData: MusicTrackData = MusicTrackData(
     "Name",
     "Artist"
 ), index : Int = 1) {

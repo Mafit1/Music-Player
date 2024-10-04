@@ -23,16 +23,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.domain.models.MusicTrackData
 import com.example.musicplayer.R
 import com.example.musicplayer.screens.modules.ItemMusicTrack
+import com.example.musicplayer.viewmodels.PlaylistViewModel
 
-@Preview(showBackground = true)
 @Composable
-fun PlayListScreen(name: String = "Имя плейлиста") {
+fun PlayListScreen(
+    viewModel: PlaylistViewModel,
+    name: String = "Имя плейлиста"
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -89,14 +91,14 @@ fun PlayListInfo(name: String) {
 
 
 @Composable
-fun TrackList() {
+private fun TrackList() {
     LazyColumn(
 
     ) {
         itemsIndexed(
             listOf(
-                com.example.domain.models.MusicTrackData("One", "Metallica"),
-                com.example.domain.models.MusicTrackData("Chop Suey", "System of a Down")
+                MusicTrackData("One", "Metallica"),
+                MusicTrackData("Chop Suey", "System of a Down")
             )
         ) { index, item ->
             ItemMusicTrack(musicTrackData = item, index = index + 1)

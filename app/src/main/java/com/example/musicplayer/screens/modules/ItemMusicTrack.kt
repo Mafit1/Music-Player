@@ -38,7 +38,7 @@ fun ItemMusicTrack(musicTrackData: MusicTrackData = MusicTrackData(
                 text = musicTrackData.name
             )
             Text(
-                text = musicTrackData.artist,
+                text = musicTrackData.author,
                 style = TextStyle(fontSize = 12.sp)
             )
         }

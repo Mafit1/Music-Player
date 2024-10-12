@@ -19,12 +19,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.domain.models.PlayListData
+import com.example.domain.models.PlaylistData
 import com.example.musicplayer.R
 
 
 @Composable
-fun PlayList(playListData: PlayListData) {
+fun PlayList(playListData: PlaylistData) {
     Card(
         modifier = Modifier
             .fillMaxWidth()

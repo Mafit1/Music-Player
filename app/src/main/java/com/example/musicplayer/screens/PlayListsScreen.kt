@@ -68,8 +68,8 @@ private fun PlayListsList(paddingValues: PaddingValues) {
     ) {
         itemsIndexed(
             listOf(
-                PlaylistData(1, "abc", 1),
-                PlaylistData(2, "cba", 2)
+                PlaylistData(1, "abc", ""),
+                PlaylistData(2, "cba", "")
             )
         ) { _, item ->
             PlayList(playListData = item)

@@ -5,6 +5,7 @@ import com.example.data.models.MusicTrackEntity
 import com.example.domain.models.MusicTrackData
 import com.example.domain.repositories.MusicTrackRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class MusicTrackRepositoryImpl(
     private val musicTrackDAO: MusicTrackDAO
@@ -23,7 +24,7 @@ class MusicTrackRepositoryImpl(
         TODO("Not yet implemented")
     }
 
-    override fun getAllTracksOrderedByNames(): Flow<List<MusicTrackData>> {
-        TODO("Not yet implemented")
+    override fun getAllTracksOrderedByNames(): Flow<List<MusicTrackData>> = musicTrackDAO.getAllTracksOrderedByNames().map { list ->
+        list.map { it.toDomain()}
     }
 }

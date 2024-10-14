@@ -97,8 +97,8 @@ private fun TrackList() {
     ) {
         itemsIndexed(
             listOf(
-                MusicTrackData("One", "Metallica"),
-                MusicTrackData("Chop Suey", "System of a Down")
+                MusicTrackData(1,"","",1,null),
+                MusicTrackData(2,"","",1,null)
             )
         ) { index, item ->
             ItemMusicTrack(musicTrackData = item, index = index + 1)

@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import com.example.domain.models.MusicTrackData
 
 @Entity(
     tableName = "music_track_table",
@@ -25,4 +26,14 @@ data class MusicTrackEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "music_track_id")
     val id: Int? = null,
-)
+) {
+    fun toDomain() : MusicTrackData {
+        return MusicTrackData(
+            id = id,
+            name = name,
+            author = author,
+            durationSec = durationSec,
+            playlistId = playlistId
+        )
+    }
+}

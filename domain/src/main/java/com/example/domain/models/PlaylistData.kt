@@ -1,7 +1,7 @@
 package com.example.domain.models
 
 data class PlaylistData(
-    var id : Int,
+    var id : Int? = null,
     var name : String,
-    var imageId : Int
+    var imageId : String
 )

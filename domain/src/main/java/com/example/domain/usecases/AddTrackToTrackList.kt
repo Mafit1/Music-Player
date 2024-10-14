@@ -5,6 +5,6 @@ import com.example.domain.repositories.MusicTrackRepository
 
 class AddTrackToTrackList(private val repository: MusicTrackRepository) {
     suspend fun execute(newTrack : MusicTrackData) {
-        repository.addMusicTrack(newTrack)
+        return repository.addMusicTrack(newTrack)
     }
 }

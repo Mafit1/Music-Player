@@ -16,10 +16,7 @@ import com.example.domain.models.MusicTrackData
 
 @Preview(showBackground = true)
 @Composable
-fun ItemMusicTrack(musicTrackData: MusicTrackData = MusicTrackData(
-    "Name",
-    "Artist"
-), index : Int = 1) {
+fun ItemMusicTrack(musicTrackData: MusicTrackData = MusicTrackData(1, "", "", 1, null), index : Int = 1) {
     Row (
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier

@@ -55,6 +55,8 @@ fun FullTrackListScreen(
             )
         }
     ) { innerPadding ->
+        // Test element
+        viewModel.addTrackToTrackList(MusicTrackData(1, "Smells like teen spirit", "Nirvana", 301, null))
         FullTrackList(
             paddingValues = innerPadding,
             listOfTracks = viewModel.getAllTracksOrderedByNames().collectAsState(initial = emptyList()).value
@@ -71,9 +73,7 @@ private fun FullTrackList(
         modifier = Modifier
             .padding(paddingValues)
     ) {
-        itemsIndexed(
-            listOfTracks
-        ) { index, item ->
+        itemsIndexed(listOfTracks) { index, item ->
             ItemMusicTrack(musicTrackData = item, index = index + 1)
         }
     }

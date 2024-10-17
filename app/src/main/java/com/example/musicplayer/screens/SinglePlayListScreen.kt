@@ -31,7 +31,7 @@ import com.example.musicplayer.screens.modules.ItemMusicTrack
 import com.example.musicplayer.viewmodels.PlaylistViewModel
 
 @Composable
-fun PlayListScreen(
+fun SinglePlayListScreen(
     viewModel: PlaylistViewModel,
     name: String = "Имя плейлиста"
 ) {

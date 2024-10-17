@@ -17,14 +17,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.domain.models.PlaylistData
 import com.example.musicplayer.R
 
-
+@Preview(showBackground = true)
 @Composable
-fun PlayList(playListData: PlaylistData) {
+fun PlayList(playListData: PlaylistData = PlaylistData(1, "Name", "1")) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -47,8 +48,8 @@ fun PlayList(playListData: PlaylistData) {
                     contentDescription = "Playlist image in list",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
-                        .padding(5.dp)
-                        .size(64.dp)
+                        .padding(10.dp)
+                        .size(48.dp)
                 )
                 Column {
                     Text(text = playListData.name)

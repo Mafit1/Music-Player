@@ -2,7 +2,8 @@ package com.musicplayer.data.repositories
 
 import com.musicplayer.data.dao.PlaylistDAO
 import com.musicplayer.data.models.PlaylistEntity
-import com.musicplayer.domain.models.PlaylistData
+import com.musicplayer.domain.models.PlaylistInfo
+import com.musicplayer.domain.models.PlaylistWithTracks
 import com.musicplayer.domain.repositories.PlaylistRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -10,7 +11,7 @@ import kotlinx.coroutines.flow.map
 class PlaylistRepositoryImpl(
     private val playlistDAO: PlaylistDAO
 ) : PlaylistRepository {
-    override suspend fun addPlaylist(newPlaylist: PlaylistData) = playlistDAO.upsertPlaylist(
+    override suspend fun addPlaylist(newPlaylist: PlaylistInfo) = playlistDAO.upsertPlaylist(
         PlaylistEntity(
             id = newPlaylist.id,
             name = newPlaylist.name,
@@ -18,7 +19,7 @@ class PlaylistRepositoryImpl(
         )
     )
 
-    override suspend fun deletePlaylist(playlistToDelete: PlaylistData) = playlistDAO.deletePlaylist(
+    override suspend fun deletePlaylist(playlistToDelete: PlaylistInfo) = playlistDAO.deletePlaylist(
         PlaylistEntity(
             name = playlistToDelete.name,
             imageId = playlistToDelete.imageId,
@@ -26,7 +27,13 @@ class PlaylistRepositoryImpl(
         )
     )
 
-    override fun getAllPlaylistsOrderedByNames(): Flow<List<PlaylistData>> = playlistDAO.getAllPlaylistsOrderedByNames().map { list ->
-        list.map { it.toDomain() }
+    override fun getAllPlaylistsOrderedByNames(): Flow<List<PlaylistInfo>> = playlistDAO.getAllPlaylistsOrderedByNames().map { playlist ->
+        playlist.map { it.toDomain() }
     }
+
+    override fun getAllPlaylistsWithTracksOrderedByNames(): Flow<List<PlaylistWithTracks>> = playlistDAO.getAllPlaylistsWithTracksOrderedByNames().map { playlist ->
+        playlist.map { it.toDomain() }
+    }
+
+    override fun getPlaylistWithTracksOrderedByNames(playlistId: Int?): Flow<PlaylistWithTracks> = playlistDAO.getPlaylistWithTracksOrderedByNames(playlistId).map { it.toDomain() }
 }

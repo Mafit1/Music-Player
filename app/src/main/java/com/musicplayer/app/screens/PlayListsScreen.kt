@@ -18,7 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.musicplayer.domain.models.PlaylistData
+import com.musicplayer.domain.models.PlaylistInfo
 import com.musicplayer.app.screens.modules.PlayList
 import com.musicplayer.app.viewmodels.PlaylistsViewModel
 
@@ -55,9 +55,9 @@ fun PlayListsScreen(
             )
         }
     ) { innerPadding ->
-        viewModel.addNewPlaylist(PlaylistData(1, "name", "imageId"))
-        viewModel.addNewPlaylist(PlaylistData(2, "name2", "imageId2"))
-        viewModel.deletePlaylist(PlaylistData(2, "name2", "imageId2"))
+        viewModel.addNewPlaylist(PlaylistInfo(1, "name", "imageId"))
+        viewModel.addNewPlaylist(PlaylistInfo(2, "name2", "imageId2"))
+        viewModel.deletePlaylist(PlaylistInfo(2, "name2", "imageId2"))
         PlayListsList(
             paddingValues = innerPadding,
             listOfPlaylists = viewModel.getAllPlaylistsOrderedByNames().collectAsState(initial = emptyList()).value
@@ -69,7 +69,7 @@ fun PlayListsScreen(
 @Composable
 private fun PlayListsList(
     paddingValues: PaddingValues,
-    listOfPlaylists: List<PlaylistData>
+    listOfPlaylists: List<PlaylistInfo>
 ) {
     LazyColumn(
         modifier = Modifier
@@ -77,7 +77,7 @@ private fun PlayListsList(
             .padding(paddingValues)
     ) {
         itemsIndexed(listOfPlaylists) { _, item ->
-            PlayList(playListData = item)
+            PlayList(playListInfo = item)
         }
     }
 }

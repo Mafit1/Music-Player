@@ -1,6 +1,6 @@
 package com.musicplayer.domain.models
 
-data class PlaylistData(
+data class PlaylistInfo(
     var id : Int? = null,
     var name : String,
     var imageId : String

@@ -29,24 +29,25 @@ import com.example.musicplayer.R
 import com.musicplayer.domain.models.MusicTrackData
 import com.musicplayer.app.screens.modules.ItemMusicTrack
 import com.musicplayer.app.viewmodels.SinglePlaylistViewModel
+import com.musicplayer.domain.models.PlaylistInfo
 
 @Composable
 fun SinglePlayListScreen(
     viewModel: SinglePlaylistViewModel,
-    name: String = "Имя плейлиста"
+    playlist: PlaylistInfo
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        PlayListInfo(name)
+        PlayListInfo(playlist)
         TrackList()
     }
 }
 
 
 @Composable
-fun PlayListInfo(name: String) {
+fun PlayListInfo(playlist: PlaylistInfo) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -69,7 +70,7 @@ fun PlayListInfo(name: String) {
                 .fillMaxWidth()
         ) {
             Text(
-                text = name,
+                text = playlist.name,
                 style = TextStyle(
                     fontSize = 24.sp
                 )

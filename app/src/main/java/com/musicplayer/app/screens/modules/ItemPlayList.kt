@@ -21,18 +21,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.musicplayer.R
-import com.musicplayer.domain.models.PlaylistData
+import com.musicplayer.domain.models.PlaylistInfo
 
 @Preview(showBackground = true)
 @Composable
-fun PlayList(playListData: PlaylistData = PlaylistData(1, "Name", "1")) {
+fun PlayList(playListInfo: PlaylistInfo = PlaylistInfo(1, "Name", "1")) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(6.dp)
-            .clickable(
-
-            ) {
+            .clickable() {
 
             },
         shape = RoundedCornerShape(15.dp)
@@ -52,7 +50,7 @@ fun PlayList(playListData: PlaylistData = PlaylistData(1, "Name", "1")) {
                         .size(48.dp)
                 )
                 Column {
-                    Text(text = playListData.name)
+                    Text(text = playListInfo.name)
                     Text(
                         text = "Плейлист",
                         style = TextStyle(fontSize = 12.sp)

@@ -1,10 +1,10 @@
 package com.musicplayer.domain.usecases
 
-import com.musicplayer.domain.models.PlaylistData
+import com.musicplayer.domain.models.PlaylistInfo
 import com.musicplayer.domain.repositories.PlaylistRepository
 
 class DeletePlaylist(private val repository: PlaylistRepository) {
-    suspend fun execute(playlistToDelete: PlaylistData) {
+    suspend fun execute(playlistToDelete: PlaylistInfo) {
         return repository.deletePlaylist(playlistToDelete)
     }
 }

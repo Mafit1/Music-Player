@@ -20,9 +20,15 @@ class MusicTrackRepositoryImpl(
         )
     )
 
-    override suspend fun deleteMusicTrack(trackToDelete: MusicTrackData) {
-        TODO("Not yet implemented")
-    }
+    override suspend fun deleteMusicTrack(trackToDelete: MusicTrackData) = musicTrackDAO.deleteTrack(
+        MusicTrackEntity(
+            id = trackToDelete.id,
+            name = trackToDelete.name,
+            author = trackToDelete.author,
+            durationSec = trackToDelete.durationSec,
+            playlistId = trackToDelete.playlistId
+        )
+    )
 
     override fun getAllTracksOrderedByNames(): Flow<List<MusicTrackData>> = musicTrackDAO.getAllTracksOrderedByNames().map { list ->
         list.map { it.toDomain() }

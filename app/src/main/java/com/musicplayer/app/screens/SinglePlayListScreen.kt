@@ -17,6 +17,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,29 +28,34 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.musicplayer.R
 import com.musicplayer.domain.models.MusicTrackData
 import com.musicplayer.app.screens.modules.ItemMusicTrack
 import com.musicplayer.app.viewmodels.SinglePlaylistViewModel
 import com.musicplayer.domain.models.PlaylistInfo
+
 
 @Composable
 fun SinglePlayListScreen(
     viewModel: SinglePlaylistViewModel,
     playlist: PlaylistInfo
 ) {
+    LaunchedEffect(playlist) {
+        viewModel.selectPlaylist(playlist)
+    }
+    val tracks by viewModel.tracks.collectAsState()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
     ) {
         PlayListInfo(playlist)
-        TrackList()
+        TrackList(tracks)
     }
 }
 
 
 @Composable
-fun PlayListInfo(playlist: PlaylistInfo) {
+private fun PlayListInfo(playlistInfo: PlaylistInfo) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -55,8 +63,8 @@ fun PlayListInfo(playlist: PlaylistInfo) {
             .background(Color.Gray)
     ) {
         Image(
-            painter = painterResource(id = R.drawable.ic_launcher_foreground),
-            contentDescription = "Playlist image in playlist screen",
+            painter = painterResource(id = playlistInfo.imageId),
+            contentDescription = "Обложка плейлиста на SinglePlayListScreen",
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .padding(8.dp)
@@ -70,12 +78,13 @@ fun PlayListInfo(playlist: PlaylistInfo) {
                 .fillMaxWidth()
         ) {
             Text(
-                text = playlist.name,
+                text = playlistInfo.name,
                 style = TextStyle(
                     fontSize = 24.sp
                 )
             )
 
+            // Кнопка добавления трека в плейлист
             IconButton(
                 onClick = {
 
@@ -83,7 +92,7 @@ fun PlayListInfo(playlist: PlaylistInfo) {
             ) {
                 Icon(
                     Icons.Default.Add,
-                    contentDescription = null,
+                    contentDescription = "Кнопка добавления трека в плейлист",
                 )
             }
         }
@@ -92,17 +101,10 @@ fun PlayListInfo(playlist: PlaylistInfo) {
 
 
 @Composable
-private fun TrackList() {
-    LazyColumn(
-
-    ) {
-        itemsIndexed(
-            listOf(
-                MusicTrackData(1,"","",1,null),
-                MusicTrackData(2,"","",1,null)
-            )
-        ) { index, item ->
-            ItemMusicTrack(musicTrackData = item, index = index + 1)
+private fun TrackList(trackList: List<MusicTrackData>) {
+    LazyColumn {
+        itemsIndexed(trackList) { index, track ->
+            ItemMusicTrack(musicTrackData = track, index = index + 1)
         }
     }
 }

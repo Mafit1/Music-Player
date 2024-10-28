@@ -25,37 +25,33 @@ import com.musicplayer.domain.models.PlaylistInfo
 
 @Preview(showBackground = true)
 @Composable
-fun PlayList(playListInfo: PlaylistInfo = PlaylistInfo(1, "Name", "1")) {
+fun PlayList(playListInfo: PlaylistInfo = PlaylistInfo(1, "Name", 1)) {
     Card(
+        shape = RoundedCornerShape(15.dp),
         modifier = Modifier
             .fillMaxWidth()
             .padding(6.dp)
-            .clickable() {
+            .clickable {
 
-            },
-        shape = RoundedCornerShape(15.dp)
+            }
     ) {
-        Box(
-            
+        Row(
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_launcher_foreground),
-                    contentDescription = "Playlist image in list",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .padding(10.dp)
-                        .size(48.dp)
+            Image(
+                painter = painterResource(id = R.drawable.ic_launcher_foreground),
+                contentDescription = "Playlist image in list",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .padding(10.dp)
+                    .size(64.dp)
+            )
+            Column {
+                Text(text = playListInfo.name)
+                Text(
+                    text = "Плейлист",
+                    style = TextStyle(fontSize = 12.sp)
                 )
-                Column {
-                    Text(text = playListInfo.name)
-                    Text(
-                        text = "Плейлист",
-                        style = TextStyle(fontSize = 12.sp)
-                    )
-                }
             }
         }
     }

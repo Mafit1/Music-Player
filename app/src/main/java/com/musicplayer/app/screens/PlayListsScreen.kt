@@ -25,44 +25,51 @@ import com.musicplayer.app.viewmodels.PlaylistsViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PlayListsScreen(
-    viewModel: PlaylistsViewModel
+    viewModel: PlaylistsViewModel,
+    paddingValues: PaddingValues
 ) {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                colors = TopAppBarColors(
-                    containerColor = Color.Gray,
-                    navigationIconContentColor = Color.Black,
-                    scrolledContainerColor = Color.Gray,
-                    titleContentColor = Color.Black,
-                    actionIconContentColor = Color.Black
-                ),
-                title = {
-                    Text("Мои плейлисты")
-                },
-                actions = {
-                    IconButton(
-                        onClick = {
-
-                        }
-                    ) {
-                        Icon(
-                            Icons.Default.Search,
-                            contentDescription = null
-                        )
-                    }
-                }
-            )
-        }
-    ) { innerPadding ->
-        viewModel.addNewPlaylist(PlaylistInfo(1, "name", "imageId"))
-        viewModel.addNewPlaylist(PlaylistInfo(2, "name2", "imageId2"))
-        viewModel.deletePlaylist(PlaylistInfo(2, "name2", "imageId2"))
-        PlayListsList(
-            paddingValues = innerPadding,
-            listOfPlaylists = viewModel.getAllPlaylistsOrderedByNames().collectAsState(initial = emptyList()).value
-        )
-    }
+//    Scaffold(
+//        topBar = {
+//            TopAppBar(
+//                colors = TopAppBarColors(
+//                    containerColor = Color.Gray,
+//                    navigationIconContentColor = Color.Black,
+//                    scrolledContainerColor = Color.Gray,
+//                    titleContentColor = Color.Black,
+//                    actionIconContentColor = Color.Black
+//                ),
+//                title = {
+//                    Text("Мои плейлисты")
+//                },
+//                actions = {
+//                    IconButton(
+//                        onClick = {
+//                            viewModel.addNewPlaylist(
+//                                PlaylistInfo(
+//                                    name = "",
+//                                    imageId = 1
+//                                )
+//                            )
+//                        }
+//                    ) {
+//                        Icon(
+//                            Icons.Default.Search,
+//                            contentDescription = null
+//                        )
+//                    }
+//                }
+//            )
+//        }
+//    ) { innerPadding ->
+//        PlayListsList(
+//            paddingValues = innerPadding,
+//            listOfPlaylists = viewModel.getAllPlaylistsOrderedByNames().collectAsState(initial = emptyList()).value
+//        )
+//    }
+    PlayListsList(
+        paddingValues = paddingValues,
+        listOfPlaylists = viewModel.getAllPlaylistsOrderedByNames().collectAsState(initial = emptyList()).value
+    )
 }
 
 

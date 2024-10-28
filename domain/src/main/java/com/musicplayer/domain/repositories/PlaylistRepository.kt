@@ -14,6 +14,8 @@ interface PlaylistRepository {
 
     fun getAllPlaylistsWithTracksOrderedByNames(): Flow<List<PlaylistWithTracks>>
 
-    fun getPlaylistWithTracksOrderedByNames(playlistId: Int?): Flow<PlaylistWithTracks>
+    fun getPlaylistWithTracksOrderedByNames(playlistId: Int): Flow<PlaylistWithTracks>
+
+    fun getPlaylistById(playlistId: Int): PlaylistInfo
 
 }

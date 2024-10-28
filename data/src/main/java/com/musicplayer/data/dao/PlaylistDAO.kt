@@ -7,6 +7,7 @@ import androidx.room.Transaction
 import androidx.room.Upsert
 import com.musicplayer.data.models.PlaylistEntity
 import com.musicplayer.data.models.PlaylistWithTracksEntity
+import com.musicplayer.domain.models.PlaylistInfo
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -25,6 +26,10 @@ interface PlaylistDAO {
     fun getAllPlaylistsWithTracksOrderedByNames(): Flow<List<PlaylistWithTracksEntity>>
 
     @Transaction
-    @Query("SELECT * FROM playlist_table WHERE playlist_id = :playlistId ORDER BY name")
-    fun getPlaylistWithTracksOrderedByNames(playlistId: Int?) : Flow<PlaylistWithTracksEntity>
+    @Query("SELECT * FROM playlist_table WHERE playlist_id = :playlistId")
+    fun getPlaylistWithTracksOrderedByNames(playlistId: Int) : Flow<PlaylistWithTracksEntity>
+
+    @Transaction
+    @Query("SELECT * FROM playlist_table WHERE playlist_id = :playlistId")
+    fun getPlaylistById(playlistId: Int) : PlaylistEntity
 }

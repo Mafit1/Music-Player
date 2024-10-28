@@ -1,5 +1,6 @@
 package com.musicplayer.app.screens.modules
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -48,12 +49,15 @@ fun ItemMusicTrack(
         }
         Row {
             Text(
-                text = formatSeconds(musicTrackData.durationSec)
+                text = formatDuration(musicTrackData.durationSec)
             )
         }
     }
 }
 
-fun formatSeconds(seconds: Long) : String {
-    return "${(seconds / 60)}:${(seconds % 60).toString().padStart(2, '0')}"
+
+@SuppressLint("DefaultLocale")
+fun formatDuration(seconds: Long) : String {
+    //return "${(seconds / 60)}:${(seconds % 60).toString().padStart(2, '0')}"
+    return String.format("%1d:%02d", seconds / 60, seconds % 60)
 }

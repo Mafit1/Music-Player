@@ -9,6 +9,7 @@ import com.musicplayer.app.ui.theme.MusicPlayerTheme
 import com.musicplayer.app.viewmodels.FullTrackListViewModel
 import com.musicplayer.app.viewmodels.PlaylistsViewModel
 import com.musicplayer.app.viewmodels.SettingsViewModel
+import com.musicplayer.app.viewmodels.SinglePlaylistViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
@@ -16,6 +17,7 @@ class MainActivity : ComponentActivity() {
     private val fullTrackListViewModel by viewModel<FullTrackListViewModel>()
     private val playlistsViewModel by viewModel<PlaylistsViewModel>()
     private val settingsViewModel by viewModel<SettingsViewModel>()
+    private val singlePlaylistViewModel by viewModel<SinglePlaylistViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +27,8 @@ class MainActivity : ComponentActivity() {
                 MainScreen(
                     fullTrackListViewModel = fullTrackListViewModel,
                     playlistsViewModel = playlistsViewModel,
-                    settingsViewModel = settingsViewModel
+                    settingsViewModel = settingsViewModel,
+                    singlePlaylistViewModel = singlePlaylistViewModel
                 )
             }
         }

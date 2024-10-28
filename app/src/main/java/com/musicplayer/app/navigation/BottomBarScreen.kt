@@ -13,17 +13,17 @@ sealed class BottomBarScreen (
 ) {
     data object BottomBarFullTrackList : BottomBarScreen(
         route = "fullTrackList",
-        title = "FullTrackList",
+        title = "Мои треки",
         icon = Icons.Default.Menu
     )
     data object BottomBarPlaylists : BottomBarScreen(
         route = "playlists",
-        title = "Playlists",
+        title = "Мои плейлисты",
         icon = Icons.Default.Star
     )
     data object BottomBarSettings : BottomBarScreen(
         route = "settings",
-        title = "Settings",
+        title = "Настройки",
         icon = Icons.Default.Settings
     )
 }

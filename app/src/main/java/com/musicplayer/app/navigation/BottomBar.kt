@@ -3,12 +3,16 @@ package com.musicplayer.app.navigation
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 
 @Composable
-fun BottomBar(navController: NavHostController) {
+fun BottomBar(
+    navController: NavHostController,
+    currentScreen: MutableState<String>
+) {
     val screens = listOf(
         BottomBarScreen.BottomBarFullTrackList,
         BottomBarScreen.BottomBarPlaylists,
@@ -22,6 +26,7 @@ fun BottomBar(navController: NavHostController) {
                 selected = currentRoute == item.route,
                 onClick = {
                     navController.navigate(item.route)
+                    currentScreen.value = item.title
                 },
                 icon = {
                     Icon(

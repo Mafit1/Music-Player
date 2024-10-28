@@ -5,5 +5,5 @@ data class MusicTrackData(
     var name : String,
     var author : String,
     var durationSec : Long,
-    var playlistId : Int?
+    var playlistId : Int? = null
 )

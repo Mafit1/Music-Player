@@ -1,5 +1,6 @@
 package com.musicplayer.app.navigation
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -14,6 +15,7 @@ import com.musicplayer.app.viewmodels.SettingsViewModel
 @Composable
 fun BottomNavGraph(
     navController: NavHostController,
+    paddingValues: PaddingValues,
     fullTrackListViewModel: FullTrackListViewModel,
     playlistsViewModel: PlaylistsViewModel,
     settingsViewModel: SettingsViewModel
@@ -23,10 +25,10 @@ fun BottomNavGraph(
         startDestination = BottomBarScreen.BottomBarFullTrackList.route
     ) {
         composable(route = BottomBarScreen.BottomBarFullTrackList.route) {
-            FullTrackListScreen(fullTrackListViewModel)
+            FullTrackListScreen(fullTrackListViewModel, paddingValues)
         }
         composable(route = BottomBarScreen.BottomBarPlaylists.route) {
-            PlayListsScreen(playlistsViewModel)
+            PlayListsScreen(playlistsViewModel, paddingValues)
         }
         composable(route = BottomBarScreen.BottomBarSettings.route) {
             SettingsScreen(settingsViewModel)

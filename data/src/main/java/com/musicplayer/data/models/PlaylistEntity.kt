@@ -10,7 +10,7 @@ import com.musicplayer.domain.models.PlaylistInfo
 )
 data class PlaylistEntity(
     val name: String,
-    val imageId: String,
+    val imageId: Int,
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "playlist_id")

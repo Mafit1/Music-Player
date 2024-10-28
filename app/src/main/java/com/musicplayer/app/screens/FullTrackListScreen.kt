@@ -24,43 +24,46 @@ import com.musicplayer.app.viewmodels.FullTrackListViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FullTrackListScreen(
-    viewModel: FullTrackListViewModel
+    viewModel: FullTrackListViewModel,
+    paddingValues: PaddingValues
 ) {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                colors = TopAppBarColors(
-                    containerColor = Color.Gray,
-                    navigationIconContentColor = Color.Black,
-                    scrolledContainerColor = Color.Gray,
-                    titleContentColor = Color.Black,
-                    actionIconContentColor = Color.Black
-                ),
-                title = {
-                    Text("Мои треки")
-                },
-                actions = {
-                    IconButton(
-                        onClick = {
-
-                        }
-                    ) {
-                        Icon(
-                            Icons.Default.Search,
-                            contentDescription = null
-                        )
-                    }
-                }
-            )
-        }
-    ) { innerPadding ->
-        // Test element
-        viewModel.addTrackToTrackList(MusicTrackData(1, "Smells like teen spirit", "Nirvana", 301, null))
-        FullTrackList(
-            paddingValues = innerPadding,
-            listOfTracks = viewModel.getAllTracksOrderedByNames().collectAsState(initial = emptyList()).value
-        )
-    }
+//    Scaffold(
+//        topBar = {
+//            TopAppBar(
+//                colors = TopAppBarColors(
+//                    containerColor = Color.Gray,
+//                    navigationIconContentColor = Color.Black,
+//                    scrolledContainerColor = Color.Gray,
+//                    titleContentColor = Color.Black,
+//                    actionIconContentColor = Color.Black
+//                ),
+//                title = {
+//                    Text("Мои треки")
+//                },
+//                actions = {
+//                    IconButton(
+//                        onClick = {
+//
+//                        }
+//                    ) {
+//                        Icon(
+//                            Icons.Default.Search,
+//                            contentDescription = null
+//                        )
+//                    }
+//                }
+//            )
+//        }
+//    ) { innerPadding ->
+//        FullTrackList(
+//            paddingValues = innerPadding,
+//            listOfTracks = viewModel.getAllTracksOrderedByNames().collectAsState(initial = emptyList()).value
+//        )
+//    }
+    FullTrackList(
+        paddingValues = paddingValues,
+        listOfTracks = viewModel.getAllTracksOrderedByNames().collectAsState(initial = emptyList()).value
+    )
 }
 
 @Composable

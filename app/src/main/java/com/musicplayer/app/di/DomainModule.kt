@@ -6,6 +6,7 @@ import com.musicplayer.domain.usecases.DeletePlaylist
 import com.musicplayer.domain.usecases.DeleteTrackFromTrackList
 import com.musicplayer.domain.usecases.GetAllPlaylistsOrderedByNames
 import com.musicplayer.domain.usecases.GetAllTracksOrderedByNames
+import com.musicplayer.domain.usecases.GetTracksFromPlaylistOrderedByNames
 import org.koin.dsl.module
 
 val domainModule = module {
@@ -20,6 +21,9 @@ val domainModule = module {
     }
     factory<GetAllPlaylistsOrderedByNames> {
         GetAllPlaylistsOrderedByNames(repository = get())
+    }
+    factory<GetTracksFromPlaylistOrderedByNames> {
+        GetTracksFromPlaylistOrderedByNames(repository = get())
     }
     factory<AddNewPlaylist> {
         AddNewPlaylist(repository = get())

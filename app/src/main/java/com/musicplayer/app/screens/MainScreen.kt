@@ -31,8 +31,7 @@ import com.musicplayer.domain.models.PlaylistInfo
 fun MainScreen(
     fullTrackListViewModel: FullTrackListViewModel,
     playlistsViewModel: PlaylistsViewModel,
-    settingsViewModel: SettingsViewModel,
-    singlePlaylistViewModel: SinglePlaylistViewModel
+    settingsViewModel: SettingsViewModel
 ) {
     val navController = rememberNavController()
     val currentScreenTitle = remember { mutableStateOf(BottomBarScreen.BottomBarFullTrackList.title) }

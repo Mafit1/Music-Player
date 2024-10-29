@@ -17,7 +17,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -32,30 +31,33 @@ import com.musicplayer.domain.models.MusicTrackData
 import com.musicplayer.app.screens.modules.ItemMusicTrack
 import com.musicplayer.app.viewmodels.SinglePlaylistViewModel
 import com.musicplayer.domain.models.PlaylistInfo
+import org.koin.androidx.compose.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 
 @Composable
 fun SinglePlayListScreen(
-    viewModel: SinglePlaylistViewModel,
     playlist: PlaylistInfo
 ) {
-    LaunchedEffect(playlist) {
-        viewModel.selectPlaylist(playlist)
-    }
+    val viewModel: SinglePlaylistViewModel = koinViewModel { parametersOf(playlist) }
+
     val tracks by viewModel.tracks.collectAsState()
 
     Column(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        PlayListInfo(playlist)
+        PlayListInfo(playlist, viewModel)
         TrackList(tracks)
     }
 }
 
 
 @Composable
-private fun PlayListInfo(playlistInfo: PlaylistInfo) {
+private fun PlayListInfo(
+    playlistInfo: PlaylistInfo,
+    viewModel: SinglePlaylistViewModel
+) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -87,7 +89,7 @@ private fun PlayListInfo(playlistInfo: PlaylistInfo) {
             // Кнопка добавления трека в плейлист
             IconButton(
                 onClick = {
-
+                    viewModel.addTrack(1)
                 }
             ) {
                 Icon(

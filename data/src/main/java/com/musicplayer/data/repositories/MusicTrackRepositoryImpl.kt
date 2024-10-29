@@ -3,6 +3,7 @@ package com.musicplayer.data.repositories
 import com.musicplayer.data.dao.MusicTrackDAO
 import com.musicplayer.data.models.MusicTrackEntity
 import com.musicplayer.domain.models.MusicTrackData
+import com.musicplayer.domain.models.PlaylistInfo
 import com.musicplayer.domain.repositories.MusicTrackRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -33,4 +34,6 @@ class MusicTrackRepositoryImpl(
     override fun getAllTracksOrderedByNames(): Flow<List<MusicTrackData>> = musicTrackDAO.getAllTracksOrderedByNames().map { list ->
         list.map { it.toDomain() }
     }
+
+    override suspend fun setPlaylistToTrack(playlist: PlaylistInfo, musicTrackId: Int) = musicTrackDAO.updateTrackSetPlaylistId(playlist.id, musicTrackId)
 }

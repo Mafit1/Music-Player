@@ -1,6 +1,7 @@
 package com.musicplayer.domain.repositories
 
 import com.musicplayer.domain.models.MusicTrackData
+import com.musicplayer.domain.models.PlaylistInfo
 import kotlinx.coroutines.flow.Flow
 
 interface MusicTrackRepository {
@@ -11,4 +12,5 @@ interface MusicTrackRepository {
 
     fun getAllTracksOrderedByNames() : Flow<List<MusicTrackData>>
 
+    suspend fun setPlaylistToTrack(playlist: PlaylistInfo, musicTrackId: Int)
 }

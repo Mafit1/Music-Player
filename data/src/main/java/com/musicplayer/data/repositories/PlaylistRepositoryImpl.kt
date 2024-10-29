@@ -27,15 +27,19 @@ class PlaylistRepositoryImpl(
         )
     )
 
-    override fun getAllPlaylistsOrderedByNames(): Flow<List<PlaylistInfo>> = playlistDAO.getAllPlaylistsOrderedByNames().map { playlist ->
+    override fun getAllPlaylistsOrderedByNames(): Flow<List<PlaylistInfo>> =
+        playlistDAO.getAllPlaylistsOrderedByNames().map { playlist ->
         playlist.map { it.toDomain() }
     }
 
-    override fun getAllPlaylistsWithTracksOrderedByNames(): Flow<List<PlaylistWithTracks>> = playlistDAO.getAllPlaylistsWithTracksOrderedByNames().map { playlist ->
+    override fun getAllPlaylistsWithTracksOrderedByNames(): Flow<List<PlaylistWithTracks>> =
+        playlistDAO.getAllPlaylistsWithTracksOrderedByNames().map { playlist ->
         playlist.map { it.toDomain() }
     }
 
-    override fun getPlaylistWithTracksOrderedByNames(playlistId: Int): Flow<PlaylistWithTracks> = playlistDAO.getPlaylistWithTracksOrderedByNames(playlistId).map { it.toDomain() }
+    override fun getPlaylistWithTracksOrderedByNames(playlist: PlaylistInfo): Flow<PlaylistWithTracks> =
+        playlistDAO.getPlaylistWithTracksOrderedByNames(playlist.id).map { it.toDomain() }
 
-    override fun getPlaylistById(playlistId: Int): PlaylistInfo = playlistDAO.getPlaylistById(playlistId).toDomain()
+    override fun getPlaylistById(playlistId: Int): PlaylistInfo =
+        playlistDAO.getPlaylistById(playlistId).toDomain()
 }

@@ -71,4 +71,5 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.koin.android)
+    implementation(libs.koin.androidx.compose)
 }

@@ -17,4 +17,7 @@ interface MusicTrackDAO {
 
     @Query("SELECT * FROM music_track_table ORDER BY name")
     fun getAllTracksOrderedByNames(): Flow<List<MusicTrackEntity>>
+
+    @Query("UPDATE music_track_table SET playlist_id = :playlistId WHERE music_track_id = :musicTrackId")
+    suspend fun updateTrackSetPlaylistId(playlistId: Int?, musicTrackId: Int?)
 }

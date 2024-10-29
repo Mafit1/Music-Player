@@ -4,6 +4,7 @@ import com.musicplayer.app.viewmodels.FullTrackListViewModel
 import com.musicplayer.app.viewmodels.PlaylistsViewModel
 import com.musicplayer.app.viewmodels.SettingsViewModel
 import com.musicplayer.app.viewmodels.SinglePlaylistViewModel
+import com.musicplayer.domain.models.PlaylistInfo
 import org.koin.dsl.module
 import org.koin.core.module.dsl.viewModel
 
@@ -30,9 +31,11 @@ val appModule = module {
         )
     }
 
-    viewModel<SinglePlaylistViewModel> {
+    viewModel<SinglePlaylistViewModel> { (playlist: PlaylistInfo) ->
         SinglePlaylistViewModel(
-            getTracksFromPlaylistOrderedByNames = get()
+            playlist = playlist,
+            getTracksFromPlaylistOrderedByNames = get(),
+            addTrackToPlaylist = get()
         )
     }
 }

@@ -17,7 +17,6 @@ class MainActivity : ComponentActivity() {
     private val fullTrackListViewModel by viewModel<FullTrackListViewModel>()
     private val playlistsViewModel by viewModel<PlaylistsViewModel>()
     private val settingsViewModel by viewModel<SettingsViewModel>()
-    private val singlePlaylistViewModel by viewModel<SinglePlaylistViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,8 +26,7 @@ class MainActivity : ComponentActivity() {
                 MainScreen(
                     fullTrackListViewModel = fullTrackListViewModel,
                     playlistsViewModel = playlistsViewModel,
-                    settingsViewModel = settingsViewModel,
-                    singlePlaylistViewModel = singlePlaylistViewModel
+                    settingsViewModel = settingsViewModel
                 )
             }
         }

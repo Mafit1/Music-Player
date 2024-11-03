@@ -14,7 +14,7 @@ data class PlaylistEntity(
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "playlist_id")
-    val id: Int? = null
+    val id: Int = 0
 ) {
     fun toDomain() : PlaylistInfo {
         return PlaylistInfo(

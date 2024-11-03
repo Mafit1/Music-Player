@@ -31,15 +31,17 @@ import com.musicplayer.domain.models.MusicTrackData
 import com.musicplayer.app.screens.modules.ItemMusicTrack
 import com.musicplayer.app.viewmodels.SinglePlaylistViewModel
 import com.musicplayer.domain.models.PlaylistInfo
-import org.koin.androidx.compose.koinViewModel
+import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
 
 @Composable
 fun SinglePlayListScreen(
-    playlist: PlaylistInfo
+    playlistId: Int
 ) {
-    val viewModel: SinglePlaylistViewModel = koinViewModel { parametersOf(playlist) }
+    val viewModel: SinglePlaylistViewModel = getViewModel { parametersOf(playlistId) }
+
+    val playlist by viewModel.playlist.collectAsState()
 
     val tracks by viewModel.tracks.collectAsState()
 
@@ -47,7 +49,7 @@ fun SinglePlayListScreen(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        PlayListInfo(playlist, viewModel)
+        PlayListInfo(playlist!!)
         TrackList(tracks)
     }
 }
@@ -55,8 +57,7 @@ fun SinglePlayListScreen(
 
 @Composable
 private fun PlayListInfo(
-    playlistInfo: PlaylistInfo,
-    viewModel: SinglePlaylistViewModel
+    playlistInfo: PlaylistInfo
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -89,7 +90,7 @@ private fun PlayListInfo(
             // Кнопка добавления трека в плейлист
             IconButton(
                 onClick = {
-                    viewModel.addTrack(1)
+
                 }
             ) {
                 Icon(

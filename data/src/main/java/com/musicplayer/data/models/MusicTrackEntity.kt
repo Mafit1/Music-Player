@@ -19,21 +19,23 @@ import com.musicplayer.domain.models.MusicTrackData
 data class MusicTrackEntity(
     val name: String,
     val author: String,
-    val durationSec: Long,
+    val duration: Long,
     @ColumnInfo(name = "playlist_id")
-    val playlistId: Int?,
+    val playlistId: Int? = null,
+    val filePath: String,
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "music_track_id")
-    val id: Int? = null,
+    val id: Int = 0,
 ) {
     fun toDomain() : MusicTrackData {
         return MusicTrackData(
             id = id,
             name = name,
             author = author,
-            durationSec = durationSec,
-            playlistId = playlistId
+            duration = duration,
+            playlistId = playlistId,
+            filePath = filePath
         )
     }
 }

@@ -20,19 +20,26 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.musicplayer.R
+import com.musicplayer.app.viewmodels.PlaylistsViewModel
 import com.musicplayer.domain.models.PlaylistInfo
 
-@Preview(showBackground = true)
+
 @Composable
-fun PlayList(playListInfo: PlaylistInfo = PlaylistInfo(1, "Name", 1)) {
+fun PlayList(
+    playListInfo: PlaylistInfo,
+    onClick: () -> Unit
+) {
     Card(
         shape = RoundedCornerShape(15.dp),
         modifier = Modifier
             .fillMaxWidth()
             .padding(6.dp)
             .clickable {
-
+                onClick()
             }
     ) {
         Row(

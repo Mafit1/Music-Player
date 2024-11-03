@@ -1,9 +1,10 @@
 package com.musicplayer.domain.models
 
 data class MusicTrackData(
-    var id : Int? = null,
+    var id : Int = 0,
     var name : String,
     var author : String,
-    var durationSec : Long,
-    var playlistId : Int? = null
+    var duration : Long,
+    var playlistId : Int? = null,
+    var filePath: String = ""
 )

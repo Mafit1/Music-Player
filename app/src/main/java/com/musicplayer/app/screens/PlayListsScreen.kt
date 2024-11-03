@@ -18,6 +18,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.musicplayer.domain.models.PlaylistInfo
 import com.musicplayer.app.screens.modules.PlayList
 import com.musicplayer.app.viewmodels.PlaylistsViewModel
@@ -26,7 +28,8 @@ import com.musicplayer.app.viewmodels.PlaylistsViewModel
 @Composable
 fun PlayListsScreen(
     viewModel: PlaylistsViewModel,
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
+    navController: NavHostController
 ) {
 //    Scaffold(
 //        topBar = {
@@ -68,7 +71,8 @@ fun PlayListsScreen(
 //    }
     PlayListsList(
         paddingValues = paddingValues,
-        listOfPlaylists = viewModel.getAllPlaylistsOrderedByNames().collectAsState(initial = emptyList()).value
+        listOfPlaylists = viewModel.getAllPlaylistsOrderedByNames().collectAsState(initial = emptyList()).value,
+        navController = navController
     )
 }
 
@@ -76,7 +80,8 @@ fun PlayListsScreen(
 @Composable
 private fun PlayListsList(
     paddingValues: PaddingValues,
-    listOfPlaylists: List<PlaylistInfo>
+    listOfPlaylists: List<PlaylistInfo>,
+    navController: NavHostController
 ) {
     LazyColumn(
         modifier = Modifier
@@ -84,7 +89,9 @@ private fun PlayListsList(
             .padding(paddingValues)
     ) {
         itemsIndexed(listOfPlaylists) { _, item ->
-            PlayList(playListInfo = item)
+            PlayList(playListInfo = item) {
+                navController.navigate("playlist_detail/${item.id}")
+            }
         }
     }
 }

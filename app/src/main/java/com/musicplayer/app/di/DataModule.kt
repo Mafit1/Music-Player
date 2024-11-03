@@ -31,7 +31,8 @@ val dataModule = module {
 
     factory<MusicTrackRepository> {
         MusicTrackRepositoryImpl(
-            musicTrackDAO = get()
+            musicTrackDAO = get(),
+            context = get()
         )
     }
 

@@ -23,6 +23,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MusicPlayerTheme {
+                fullTrackListViewModel.setContentResolver(contentResolver)
                 MainScreen(
                     fullTrackListViewModel = fullTrackListViewModel,
                     playlistsViewModel = playlistsViewModel,

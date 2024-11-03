@@ -35,9 +35,7 @@ fun ItemMusicTrack(
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Box(
-
-            ) {
+            Box{
                 Text(
                     text = index.toString(),
                     textAlign = TextAlign.End

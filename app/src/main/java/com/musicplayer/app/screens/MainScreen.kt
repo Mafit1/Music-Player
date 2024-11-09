@@ -1,12 +1,6 @@
 package com.musicplayer.app.screens
 
-import android.app.Activity
-import android.content.ContentResolver
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -17,11 +11,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
-import androidx.core.net.toFile
 import androidx.navigation.compose.rememberNavController
 import com.musicplayer.app.navigation.BottomBar
 import com.musicplayer.app.navigation.BottomBarScreen
@@ -29,9 +21,7 @@ import com.musicplayer.app.navigation.BottomNavGraph
 import com.musicplayer.app.viewmodels.FullTrackListViewModel
 import com.musicplayer.app.viewmodels.PlaylistsViewModel
 import com.musicplayer.app.viewmodels.SettingsViewModel
-import com.musicplayer.domain.models.MusicTrackData
 import com.musicplayer.domain.models.PlaylistInfo
-import java.io.File
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -91,22 +81,4 @@ fun MainScreen(
             settingsViewModel = settingsViewModel
         )
     }
-}
-
-private fun copyUriToFile(uri: Uri, context: Context): File? {
-    val fileName = "selected_track.mp3"
-    val destinationFile = File(context.filesDir, fileName)
-
-    try {
-        context.contentResolver.openInputStream(uri)?.use { inputStream ->
-            destinationFile.outputStream().use { outputStream ->
-                inputStream.copyTo(outputStream)
-            }
-        }
-    } catch (e: Exception) {
-        e.printStackTrace()
-        return null
-    }
-
-    return destinationFile
 }

@@ -13,11 +13,10 @@ interface MusicTrackRepository {
 
     suspend fun deleteMusicTrack(trackToDelete: MusicTrackData)
 
-    fun getAllTracksOrderedByNames() : Flow<List<MusicTrackData>>
+    fun getAllTracksOrderedByNames(): Flow<List<MusicTrackData>>
 
     suspend fun setPlaylistToTrack(playlist: PlaylistInfo, musicTrackId: Int)
 
     suspend fun saveTrackFile(file: File)
-
 
 }

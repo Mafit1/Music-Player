@@ -27,7 +27,7 @@ interface PlaylistDAO {
 
     @Transaction
     @Query("SELECT * FROM playlist_table WHERE playlist_id = :playlistId")
-    fun getPlaylistWithTracksOrderedByNames(playlistId: Int?) : Flow<PlaylistWithTracksEntity>
+    fun getPlaylistWithTracksOrderedByNames(playlistId: Int) : Flow<PlaylistWithTracksEntity>
 
     @Transaction
     @Query("SELECT * FROM playlist_table WHERE playlist_id = :playlistId")

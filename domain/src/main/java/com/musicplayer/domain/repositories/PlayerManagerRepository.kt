@@ -1,5 +1,6 @@
 package com.musicplayer.domain.repositories
 
+import com.musicplayer.domain.models.MusicTrackData
 import kotlinx.coroutines.flow.Flow
 
 interface PlayerManagerRepository {
@@ -32,4 +33,17 @@ interface PlayerManagerRepository {
 
     fun getCurrentTrackIndex(): Flow<Int>
 
+    fun getCurrentPlaylist(): Flow<List<MusicTrackData>>
+
+    fun getIsShuffleEnabled(): Flow<Boolean>
+
+    fun getRepeatMode(): Flow<Int>
+
+    fun getCurrentPlayerState(): Flow<Int>
+
+    fun setPlaylist(tracks: List<MusicTrackData>)
+
+    fun addTrack(track: MusicTrackData)
+
+    fun release()
 }

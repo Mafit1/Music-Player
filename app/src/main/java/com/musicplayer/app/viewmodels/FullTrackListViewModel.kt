@@ -2,10 +2,13 @@ package com.musicplayer.app.viewmodels
 
 import android.content.ContentResolver
 import android.content.Context
+import android.content.Intent
 import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
+import android.provider.OpenableColumns
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.musicplayer.domain.models.MusicTrackData
@@ -92,11 +95,25 @@ class FullTrackListViewModel(
     }
 
     fun handleSelectedUris(context: Context, uris: List<Uri>) = viewModelScope.launch {
+        val contentResolver = context.contentResolver
+
+        uris.forEach { uri ->
+            try {
+                contentResolver.takePersistableUriPermission(
+                    uri,
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                )
+            } catch (e: SecurityException) {
+                e.printStackTrace()
+            }
+        }
+
         val newTracks = uris.mapNotNull { uri ->
             uri.getTrackMetadata(context)
         }
         newTracks.forEach { track ->
             addTrackToTrackList.execute(track)
+            Log.d("myMusicPlayer", track.toString())
         }
     }
 }

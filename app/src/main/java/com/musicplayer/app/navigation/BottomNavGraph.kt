@@ -15,6 +15,7 @@ import com.musicplayer.app.screens.SinglePlayListScreen
 import com.musicplayer.app.viewmodels.FullTrackListViewModel
 import com.musicplayer.app.viewmodels.PlaylistsViewModel
 import com.musicplayer.app.viewmodels.SettingsViewModel
+import com.musicplayer.app.viewmodels.SharedPlayerViewModel
 import com.musicplayer.domain.models.PlaylistInfo
 import kotlinx.serialization.Serializable
 
@@ -24,14 +25,15 @@ fun BottomNavGraph(
     paddingValues: PaddingValues,
     fullTrackListViewModel: FullTrackListViewModel,
     playlistsViewModel: PlaylistsViewModel,
-    settingsViewModel: SettingsViewModel
+    settingsViewModel: SettingsViewModel,
+    sharedPlayerViewModel: SharedPlayerViewModel
 ) {
     NavHost(
         navController = navController,
         startDestination = BottomBarScreen.BottomBarFullTrackList.route
     ) {
         composable(route = BottomBarScreen.BottomBarFullTrackList.route) {
-            FullTrackListScreen(fullTrackListViewModel, paddingValues)
+            FullTrackListScreen(fullTrackListViewModel, sharedPlayerViewModel, paddingValues)
         }
         composable(route = BottomBarScreen.BottomBarPlaylists.route) {
             PlayListsScreen(playlistsViewModel, paddingValues, navController)

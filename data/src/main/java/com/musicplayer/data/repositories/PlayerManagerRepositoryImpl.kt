@@ -1,9 +1,12 @@
 package com.musicplayer.data.repositories
 
 import android.content.Context
+import android.util.Log
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
+import androidx.media3.common.Tracks
 import androidx.media3.exoplayer.ExoPlayer
+import com.musicplayer.domain.models.MusicTrackData
 import com.musicplayer.domain.repositories.PlayerManagerRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -12,44 +15,47 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class PlayerManagerRepositoryImpl(
-    context: Context
+    private val exoPlayer: ExoPlayer
 ) : PlayerManagerRepository {
 
-    private val exoPlayer: ExoPlayer = ExoPlayer.Builder(context).build()
-
-    // StateFlows для наблюдения за состоянием
     private val _currentPosition = MutableStateFlow(0L)
     private val _duration = MutableStateFlow(0L)
     private val _isPlaying = MutableStateFlow(false)
     private val _currentTrackIndex = MutableStateFlow(0)
     private val _shuffleEnabled = MutableStateFlow(false)
     private val _repeatMode = MutableStateFlow(Player.REPEAT_MODE_OFF)
+    private val _tracks = MutableStateFlow<List<MusicTrackData>>(emptyList())
+    private val _currentPlayerState = MutableStateFlow(Player.STATE_IDLE)
 
-    // Публичные Flow для доступа
+
     override fun getCurrentPosition(): Flow<Long> = _currentPosition.asStateFlow()
     override fun getDuration(): Flow<Long> = _duration.asStateFlow()
     override fun getIsPlaying(): Flow<Boolean> = _isPlaying.asStateFlow()
     override fun getCurrentTrackIndex(): Flow<Int> = _currentTrackIndex.asStateFlow()
-    val isShuffleEnabled: Flow<Boolean> = _shuffleEnabled.asStateFlow()
-    val repeatMode: Flow<Int> = _repeatMode.asStateFlow()
+    override fun getIsShuffleEnabled(): Flow<Boolean> = _shuffleEnabled.asStateFlow()
+    override fun getRepeatMode(): Flow<Int> = _repeatMode.asStateFlow()
+    override fun getCurrentPlaylist(): Flow<List<MusicTrackData>> = _tracks.asStateFlow()
+    override fun getCurrentPlayerState(): Flow<Int> = _currentPlayerState.asStateFlow()
 
-    // Корутинная задача для обновления текущей позиции
+
     private var progressJob: Job? = null
 
     init {
-        // Настраиваем слушателя ExoPlayer
         exoPlayer.addListener(object : Player.Listener {
             override fun onIsPlayingChanged(isPlaying: Boolean) {
                 _isPlaying.value = isPlaying
             }
 
             override fun onPlaybackStateChanged(playbackState: Int) {
-                if (playbackState == Player.STATE_READY) {
+                _currentPlayerState.value = playbackState
+                if (exoPlayer.playWhenReady) {
                     _duration.value = exoPlayer.duration
                 }
+                Log.d("myMusicPlayer", "state: $playbackState")
             }
 
             override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
@@ -58,15 +64,16 @@ class PlayerManagerRepositoryImpl(
 
             override fun onShuffleModeEnabledChanged(shuffleModeEnabled: Boolean) {
                 _shuffleEnabled.value = shuffleModeEnabled
+                Log.d("myMusicPlayer", "shuffle: $shuffleModeEnabled")
             }
 
             override fun onRepeatModeChanged(repeatMode: Int) {
                 _repeatMode.value = repeatMode
+                Log.d("myMusicPlayer", "repeat mode: $repeatMode")
             }
         })
     }
 
-    // Методы управления треками
     override fun playTrackAt(index: Int) {
         exoPlayer.seekTo(index, 0)
         exoPlayer.play()
@@ -94,8 +101,8 @@ class PlayerManagerRepositoryImpl(
 
     override fun toggleRepeatMode() {
         val newMode = when (exoPlayer.repeatMode) {
-            Player.REPEAT_MODE_OFF -> Player.REPEAT_MODE_ONE
-            Player.REPEAT_MODE_ONE -> Player.REPEAT_MODE_ALL
+            Player.REPEAT_MODE_OFF -> Player.REPEAT_MODE_ALL
+            Player.REPEAT_MODE_ALL -> Player.REPEAT_MODE_ONE
             else -> Player.REPEAT_MODE_OFF
         }
         exoPlayer.repeatMode = newMode
@@ -126,16 +133,22 @@ class PlayerManagerRepositoryImpl(
     }
 
     // Метод для загрузки списка треков в ExoPlayer
-    fun setPlaylist(tracks: List<String>) {
-        val mediaItems = tracks.map { path ->
-            MediaItem.fromUri(path)
+    override fun setPlaylist(tracks: List<MusicTrackData>) {
+        _tracks.value = tracks
+        val mediaItems = tracks.map { track ->
+            MediaItem.fromUri(track.filePath)
         }
         exoPlayer.setMediaItems(mediaItems)
         exoPlayer.prepare()
+        Log.d("myMusicPlayer", "player prepared")
+    }
+
+    override fun addTrack(track: MusicTrackData) {
+        exoPlayer.setMediaItem(MediaItem.fromUri(track.filePath))
     }
 
     // Очистка ресурсов
-    fun release() {
+    override fun release() {
         exoPlayer.release()
         stopUpdatingProgress()
     }

@@ -7,14 +7,17 @@ import com.musicplayer.domain.models.PlaylistInfo
 import com.musicplayer.domain.usecases.AddTrackToPlaylist
 import com.musicplayer.domain.usecases.GetPlaylistById
 import com.musicplayer.domain.usecases.GetTracksFromPlaylistOrderedByNames
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class SinglePlaylistViewModel(
-    private val playlistId: Int,
     getTracksFromPlaylistOrderedByNames: GetTracksFromPlaylistOrderedByNames,
     private val addTrackToPlaylist: AddTrackToPlaylist,
     private val getPlaylistById: GetPlaylistById
@@ -23,20 +26,26 @@ class SinglePlaylistViewModel(
     private val _playlist = MutableStateFlow<PlaylistInfo?>(null)
     val playlist: StateFlow<PlaylistInfo?> = _playlist
 
-    init {
-        loadPlaylist()
-    }
-
-    private fun loadPlaylist() {
-        viewModelScope.launch {
-            _playlist.value = getPlaylistById.execute(playlistId)
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val tracks: StateFlow<List<MusicTrackData>> = _playlist
+        .flatMapLatest { playlistInfo ->
+            playlistInfo?.let {
+                getTracksFromPlaylistOrderedByNames.execute(it.id)
+            } ?: flowOf(emptyList())
         }
-    }
-
-    val tracks: StateFlow<List<MusicTrackData>> =
-        getTracksFromPlaylistOrderedByNames.execute(playlistId).stateIn(
+        .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = emptyList()
         )
+
+    fun setPlaylist(playlistId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _playlist.value = getPlaylistById.execute(playlistId)
+        }
+    }
+
+    fun addTrackToPlaylist(track: MusicTrackData, playlist: PlaylistInfo) = viewModelScope.launch {
+        addTrackToPlaylist.execute(track, playlist)
+    }
 }

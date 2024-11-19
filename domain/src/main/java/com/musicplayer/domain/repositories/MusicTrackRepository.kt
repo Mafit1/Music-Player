@@ -1,9 +1,7 @@
 package com.musicplayer.domain.repositories
 
 import com.musicplayer.domain.models.MusicTrackData
-import com.musicplayer.domain.models.PlaylistInfo
 import kotlinx.coroutines.flow.Flow
-import java.io.File
 
 interface MusicTrackRepository {
 
@@ -13,10 +11,9 @@ interface MusicTrackRepository {
 
     suspend fun deleteMusicTrack(trackToDelete: MusicTrackData)
 
-    fun getAllTracksOrderedByNames(): Flow<List<MusicTrackData>>
+    suspend fun updateTrackFields(trackId: Int, name: String, author: String)
 
-    suspend fun setPlaylistToTrack(playlist: PlaylistInfo, musicTrackId: Int)
+    fun getAllTracksOrderedById(): Flow<List<MusicTrackData>>
 
-    suspend fun saveTrackFile(file: File)
-
+    suspend fun getTrackById(trackId: Int): MusicTrackData
 }

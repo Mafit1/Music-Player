@@ -3,6 +3,7 @@ package com.musicplayer.data.models
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.musicplayer.domain.models.MusicTrackData
 import com.musicplayer.domain.models.PlaylistInfo
 
 @Entity(
@@ -20,7 +21,7 @@ data class PlaylistEntity(
         return PlaylistInfo(
             id = id,
             name = name,
-            imageId = imageId
+            imageId = imageId,
         )
     }
 }

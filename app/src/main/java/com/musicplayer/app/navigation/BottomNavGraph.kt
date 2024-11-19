@@ -1,13 +1,11 @@
 package com.musicplayer.app.navigation
 
-import android.util.Log
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.toRoute
 import com.musicplayer.app.screens.FullTrackListScreen
 import com.musicplayer.app.screens.PlayListsScreen
 import com.musicplayer.app.screens.SettingsScreen
@@ -16,8 +14,7 @@ import com.musicplayer.app.viewmodels.FullTrackListViewModel
 import com.musicplayer.app.viewmodels.PlaylistsViewModel
 import com.musicplayer.app.viewmodels.SettingsViewModel
 import com.musicplayer.app.viewmodels.SharedPlayerViewModel
-import com.musicplayer.domain.models.PlaylistInfo
-import kotlinx.serialization.Serializable
+import com.musicplayer.app.viewmodels.SinglePlaylistViewModel
 
 @Composable
 fun BottomNavGraph(
@@ -26,6 +23,7 @@ fun BottomNavGraph(
     fullTrackListViewModel: FullTrackListViewModel,
     playlistsViewModel: PlaylistsViewModel,
     settingsViewModel: SettingsViewModel,
+    singlePlaylistViewModel: SinglePlaylistViewModel,
     sharedPlayerViewModel: SharedPlayerViewModel
 ) {
     NavHost(
@@ -43,7 +41,11 @@ fun BottomNavGraph(
         }
         composable(route = "playlist_detail/{playlistId}") { backStackEntry ->
             val playlistId = backStackEntry.arguments?.getString("playlistId")?.toIntOrNull()
-            if (playlistId != null) SinglePlayListScreen(playlistId = playlistId)
+            if (playlistId != null) SinglePlayListScreen(
+                playlistId = playlistId,
+                singlePlaylistViewModel = singlePlaylistViewModel,
+                sharedPlayerViewModel = sharedPlayerViewModel
+            )
             else Text("Invalid Playlist ID")
         }
     }

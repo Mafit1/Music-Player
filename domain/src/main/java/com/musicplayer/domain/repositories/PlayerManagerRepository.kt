@@ -45,5 +45,7 @@ interface PlayerManagerRepository {
 
     fun addTrack(track: MusicTrackData)
 
+    fun addTracks(tracks: List<MusicTrackData>)
+
     fun release()
 }

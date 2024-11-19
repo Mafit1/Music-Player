@@ -3,7 +3,9 @@ package com.musicplayer.data.repositories
 import android.content.Context
 import android.util.Log
 import androidx.media3.common.MediaItem
+import androidx.media3.common.MediaMetadata
 import androidx.media3.common.Player
+import androidx.media3.common.Timeline
 import androidx.media3.common.Tracks
 import androidx.media3.exoplayer.ExoPlayer
 import com.musicplayer.domain.models.MusicTrackData
@@ -54,12 +56,14 @@ class PlayerManagerRepositoryImpl(
                 _currentPlayerState.value = playbackState
                 if (exoPlayer.playWhenReady) {
                     _duration.value = exoPlayer.duration
+                    updateTrackDuration()
                 }
                 Log.d("myMusicPlayer", "state: $playbackState")
             }
 
             override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
                 _currentTrackIndex.value = exoPlayer.currentMediaItemIndex
+                updateTrackDuration()
             }
 
             override fun onShuffleModeEnabledChanged(shuffleModeEnabled: Boolean) {
@@ -113,7 +117,6 @@ class PlayerManagerRepositoryImpl(
         _currentPosition.value = positionMs
     }
 
-    // Обновление позиции трека
     override fun startUpdatingProgress() {
         if (progressJob == null || progressJob?.isActive == false) {
             progressJob = CoroutineScope(Dispatchers.Main).launch {
@@ -132,7 +135,11 @@ class PlayerManagerRepositoryImpl(
         progressJob = null
     }
 
-    // Метод для загрузки списка треков в ExoPlayer
+    private fun updateTrackDuration() {
+        val duration = exoPlayer.duration.coerceAtLeast(0L)
+        _duration.value = duration
+    }
+
     override fun setPlaylist(tracks: List<MusicTrackData>) {
         _tracks.value = tracks
         val mediaItems = tracks.map { track ->
@@ -144,10 +151,16 @@ class PlayerManagerRepositoryImpl(
     }
 
     override fun addTrack(track: MusicTrackData) {
-        exoPlayer.setMediaItem(MediaItem.fromUri(track.filePath))
+        exoPlayer.addMediaItem(MediaItem.fromUri(track.filePath))
     }
 
-    // Очистка ресурсов
+    override fun addTracks(tracks: List<MusicTrackData>) {
+        val mediaItems = tracks.map { track ->
+            MediaItem.fromUri(track.filePath)
+        }
+        exoPlayer.addMediaItems(mediaItems)
+    }
+
     override fun release() {
         exoPlayer.release()
         stopUpdatingProgress()

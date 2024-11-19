@@ -1,5 +1,6 @@
 package com.musicplayer.domain.repositories
 
+import com.musicplayer.domain.models.MusicTrackData
 import com.musicplayer.domain.models.PlaylistInfo
 import com.musicplayer.domain.models.PlaylistWithTracks
 import kotlinx.coroutines.flow.Flow
@@ -10,12 +11,15 @@ interface PlaylistRepository {
 
     suspend fun deletePlaylist(playlistToDelete: PlaylistInfo)
 
+    suspend fun removeTrackFromPlaylist(trackId: Int, playlistId: Int)
+
     fun getAllPlaylistsOrderedByNames(): Flow<List<PlaylistInfo>>
 
     fun getAllPlaylistsWithTracksOrderedByNames(): Flow<List<PlaylistWithTracks>>
 
     fun getPlaylistWithTracksOrderedByNames(playlistId: Int): Flow<PlaylistWithTracks>
 
-    fun getPlaylistById(playlistId: Int): PlaylistInfo
+    suspend fun getPlaylistById(playlistId: Int): PlaylistInfo
 
+    suspend fun addTrackToPlaylist(trackId: Int, playlistId: Int)
 }

@@ -5,6 +5,5 @@ data class MusicTrackData(
     var name : String,
     var author : String,
     var duration : Long,
-    var playlistId : Int? = null,
     var filePath: String = ""
 )

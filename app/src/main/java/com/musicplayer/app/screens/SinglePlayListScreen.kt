@@ -17,6 +17,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -27,37 +28,48 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.musicplayer.domain.models.MusicTrackData
+import com.example.musicplayer.R
 import com.musicplayer.app.screens.modules.ItemMusicTrack
+import com.musicplayer.app.viewmodels.SharedPlayerViewModel
+import com.musicplayer.domain.models.MusicTrackData
 import com.musicplayer.app.viewmodels.SinglePlaylistViewModel
 import com.musicplayer.domain.models.PlaylistInfo
-import org.koin.androidx.compose.getViewModel
-import org.koin.core.parameter.parametersOf
 
 
 @Composable
 fun SinglePlayListScreen(
-    playlistId: Int
+    playlistId: Int,
+    singlePlaylistViewModel: SinglePlaylistViewModel,
+    sharedPlayerViewModel: SharedPlayerViewModel
 ) {
-    val viewModel: SinglePlaylistViewModel = getViewModel { parametersOf(playlistId) }
+    LaunchedEffect(Unit) {
+        singlePlaylistViewModel.setPlaylist(playlistId)
+    }
 
-    val playlist by viewModel.playlist.collectAsState()
+    val playlist by singlePlaylistViewModel.playlist.collectAsState()
 
-    val tracks by viewModel.tracks.collectAsState()
+    val tracks by singlePlaylistViewModel.tracks.collectAsState()
 
     Column(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        PlayListInfo(playlist!!)
+        PlayListInformation(
+            playlistInfo = playlist ?: PlaylistInfo(
+                name = "",
+                imageId = R.drawable.ic_launcher_foreground
+            ),
+            addButtonOnClick = {  }
+        )
         TrackList(tracks)
     }
 }
 
 
 @Composable
-private fun PlayListInfo(
-    playlistInfo: PlaylistInfo
+private fun PlayListInformation(
+    playlistInfo: PlaylistInfo,
+    addButtonOnClick: () -> Unit
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -66,7 +78,7 @@ private fun PlayListInfo(
             .background(Color.Gray)
     ) {
         Image(
-            painter = painterResource(id = playlistInfo.imageId),
+            painter = painterResource(id = R.drawable.ic_launcher_foreground),
             contentDescription = "Обложка плейлиста на SinglePlayListScreen",
             contentScale = ContentScale.Crop,
             modifier = Modifier
@@ -86,11 +98,9 @@ private fun PlayListInfo(
                     fontSize = 24.sp
                 )
             )
-
-            // Кнопка добавления трека в плейлист
             IconButton(
                 onClick = {
-
+                    addButtonOnClick()
                 }
             ) {
                 Icon(
@@ -107,7 +117,17 @@ private fun PlayListInfo(
 private fun TrackList(trackList: List<MusicTrackData>) {
     LazyColumn {
         itemsIndexed(trackList) { index, track ->
-            //ItemMusicTrack(musicTrackData = track, index = index + 1)
+            ItemMusicTrack(
+                musicTrackData = track,
+                index = index + 1,
+                onClick = {
+
+                },
+                settingsOnClick = {
+
+                },
+                isPlaying = false
+            )
         }
     }
 }

@@ -2,29 +2,27 @@ package com.musicplayer.app.screens.modules
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowForward
-import androidx.compose.material.icons.filled.Call
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -44,6 +42,17 @@ fun PlayerBar(
     val currentPlaylist by sharedPlayerViewModel.currentPlaylist.collectAsState(initial = emptyList())
     val currentPlayerState by sharedPlayerViewModel.currentPlayerState.collectAsState(initial = Player.STATE_IDLE)
     val currentTrack = if (currentPlayerState == Player.STATE_READY) currentPlaylist[currentTrackIndex] else MusicTrackData(name = "", author = "", duration = 0)
+
+    val duration by sharedPlayerViewModel.duration.collectAsState(initial = 0L)
+    val currentPosition by sharedPlayerViewModel.currentPosition.collectAsState(initial = 0L)
+    val sliderPosition = remember { mutableFloatStateOf(0f) }
+    val isDragging = remember { mutableStateOf(false) }
+
+    LaunchedEffect(currentPosition) {
+        if (!isDragging.value && duration > 0) {
+            sliderPosition.floatValue = (currentPosition.toFloat() / duration) * 100
+        }
+    }
 
     Surface(
         modifier = Modifier
@@ -82,6 +91,22 @@ fun PlayerBar(
                     )
                 }
             }
+            Slider(
+                value = if (currentPlayerState == Player.STATE_READY) sliderPosition.floatValue else 0f,
+                onValueChange = {
+                    sliderPosition.floatValue = it
+                    isDragging.value = true
+                },
+                onValueChangeFinished = {
+                    val seekPosition = (sliderPosition.floatValue / 100) * duration
+                    sharedPlayerViewModel.seekTo(seekPosition.toLong())
+                    isDragging.value = false
+                },
+                valueRange = 0f..100f,
+                modifier = Modifier.fillMaxWidth(),
+                enabled = currentPlayerState == Player.STATE_READY,
+                colors = SliderDefaults.colors(disabledThumbColor = Color.Transparent)
+            )
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),

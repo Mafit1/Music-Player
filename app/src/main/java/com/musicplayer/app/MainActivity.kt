@@ -19,17 +19,18 @@ class MainActivity : ComponentActivity() {
     private val playlistsViewModel by viewModel<PlaylistsViewModel>()
     private val settingsViewModel by viewModel<SettingsViewModel>()
     private val sharedPlayerViewModel by viewModel<SharedPlayerViewModel>()
+    private val singlePlaylistViewModel by viewModel<SinglePlaylistViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             MusicPlayerTheme {
-                fullTrackListViewModel.setContentResolver(contentResolver)
                 MainScreen(
                     fullTrackListViewModel = fullTrackListViewModel,
                     playlistsViewModel = playlistsViewModel,
                     settingsViewModel = settingsViewModel,
+                    singlePlaylistViewModel = singlePlaylistViewModel,
                     sharedPlayerViewModel = sharedPlayerViewModel
                 )
             }

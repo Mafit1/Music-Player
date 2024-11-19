@@ -5,6 +5,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 
@@ -30,7 +31,7 @@ fun BottomBar(
                 },
                 icon = {
                     Icon(
-                        item.icon,
+                        painter = painterResource(id = item.icon),
                         contentDescription = null
                     )
                 }

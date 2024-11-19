@@ -5,25 +5,26 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.example.musicplayer.R
 
 sealed class BottomBarScreen (
     val route : String,
     val title : String,
-    val icon : ImageVector
+    val icon : Int
 ) {
     data object BottomBarFullTrackList : BottomBarScreen(
         route = "fullTrackList",
         title = "Мои треки",
-        icon = Icons.Default.Menu
+        icon = R.drawable.baseline_audiotrack_24
     )
     data object BottomBarPlaylists : BottomBarScreen(
         route = "playlists",
         title = "Мои плейлисты",
-        icon = Icons.Default.Star
+        icon = R.drawable.baseline_format_list_bulleted_24
     )
     data object BottomBarSettings : BottomBarScreen(
         route = "settings",
         title = "Настройки",
-        icon = Icons.Default.Settings
+        icon = R.drawable.baseline_settings_24
     )
 }

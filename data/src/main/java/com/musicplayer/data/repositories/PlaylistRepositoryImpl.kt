@@ -2,6 +2,8 @@ package com.musicplayer.data.repositories
 
 import com.musicplayer.data.dao.PlaylistDAO
 import com.musicplayer.data.models.PlaylistEntity
+import com.musicplayer.data.models.PlaylistMusicTrackCrossRef
+import com.musicplayer.domain.models.MusicTrackData
 import com.musicplayer.domain.models.PlaylistInfo
 import com.musicplayer.domain.models.PlaylistWithTracks
 import com.musicplayer.domain.repositories.PlaylistRepository
@@ -13,7 +15,6 @@ class PlaylistRepositoryImpl(
 ) : PlaylistRepository {
     override suspend fun addPlaylist(newPlaylist: PlaylistInfo) = playlistDAO.upsertPlaylist(
         PlaylistEntity(
-            id = newPlaylist.id,
             name = newPlaylist.name,
             imageId = newPlaylist.imageId // Мб поменять на ImageVector
         )
@@ -26,6 +27,9 @@ class PlaylistRepositoryImpl(
             id = playlistToDelete.id
         )
     )
+
+    override suspend fun removeTrackFromPlaylist(trackId: Int, playlistId: Int) =
+        playlistDAO.removeTrackFromPlaylist(trackId, playlistId)
 
     override fun getAllPlaylistsOrderedByNames(): Flow<List<PlaylistInfo>> =
         playlistDAO.getAllPlaylistsOrderedByNames().map { playlist ->
@@ -40,6 +44,12 @@ class PlaylistRepositoryImpl(
     override fun getPlaylistWithTracksOrderedByNames(playlistId: Int): Flow<PlaylistWithTracks> =
         playlistDAO.getPlaylistWithTracksOrderedByNames(playlistId).map { it.toDomain() }
 
-    override fun getPlaylistById(playlistId: Int): PlaylistInfo =
+    override suspend fun getPlaylistById(playlistId: Int): PlaylistInfo =
         playlistDAO.getPlaylistById(playlistId).toDomain()
+
+    override suspend fun addTrackToPlaylist(trackId: Int, playlistId: Int) {
+        playlistDAO.upsertPlaylistMusicTrackCrossRef(
+            PlaylistMusicTrackCrossRef(trackId = trackId, playlistId = playlistId)
+        )
+    }
 }

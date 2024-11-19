@@ -9,24 +9,29 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.musicplayer.R
 import com.musicplayer.domain.models.MusicTrackData
 
 @Composable
 fun ItemMusicTrack(
-    musicTrackData: MusicTrackData = MusicTrackData(1, "dghjdghjdghjfghjfghjfgjfgjfgjfgjfgjfghjjghkhgkghjkhgkghkghkhgkghkghkhgkykgh", "Author", 210000, null),
+    musicTrackData: MusicTrackData,
     index: Int = 1,
     onClick: () -> Unit,
+    settingsOnClick: () -> Unit,
     isPlaying: Boolean = false
 ) {
     val backgroundColor = if (isPlaying) MaterialTheme.colorScheme.primary.copy(alpha = 0.2f) else MaterialTheme.colorScheme.background
@@ -39,13 +44,21 @@ fun ItemMusicTrack(
             .fillMaxWidth()
             .clickable { onClick() }
             .background(backgroundColor)
-            .padding(12.dp)
+            .padding(start = 12.dp, top = 12.dp, bottom = 12.dp)
     ) {
-        Text(
-            text = index.toString(),
-            textAlign = TextAlign.End,
-            color = textColor
-        )
+        if (isPlaying) {
+            Icon(
+                painter = painterResource(R.drawable.baseline_circle_24),
+                contentDescription = "круг",
+                tint = MaterialTheme.colorScheme.primary
+            )
+        } else {
+            Text(
+                text = index.toString(),
+                textAlign = TextAlign.End,
+                color = textColor
+            )
+        }
         Column(
             modifier = Modifier
                 .padding(start = 12.dp)
@@ -71,6 +84,15 @@ fun ItemMusicTrack(
             color = textColor,
             modifier = Modifier.padding(start = 8.dp)
         )
+        IconButton(
+            onClick = settingsOnClick
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.baseline_more_horiz_24),
+                contentDescription = "Кнопка настроек трека",
+                tint = textColor
+            )
+        }
     }
 }
 

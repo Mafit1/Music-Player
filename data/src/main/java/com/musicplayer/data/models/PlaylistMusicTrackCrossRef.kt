@@ -11,12 +11,14 @@ import androidx.room.ForeignKey
         ForeignKey(
             entity = MusicTrackEntity::class,
             parentColumns = ["music_track_id"],
-            childColumns = ["music_track_id"]
+            childColumns = ["music_track_id"],
+            onDelete = ForeignKey.CASCADE
         ),
         ForeignKey(
             entity = PlaylistEntity::class,
             parentColumns = ["playlist_id"],
-            childColumns = ["playlist_id"]
+            childColumns = ["playlist_id"],
+            onDelete = ForeignKey.CASCADE
         )
     ]
 )

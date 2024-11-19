@@ -6,10 +6,11 @@ import com.musicplayer.domain.usecases.AddTrackToTrackList
 import com.musicplayer.domain.usecases.DeletePlaylist
 import com.musicplayer.domain.usecases.DeleteTrackFromTrackList
 import com.musicplayer.domain.usecases.GetAllPlaylistsOrderedByNames
-import com.musicplayer.domain.usecases.GetAllTracksOrderedByNames
+import com.musicplayer.domain.usecases.GetAllTracksOrderedById
 import com.musicplayer.domain.usecases.GetPlaylistById
 import com.musicplayer.domain.usecases.GetTracksFromPlaylistOrderedByNames
-import com.musicplayer.domain.usecases.SaveTrackFile
+import com.musicplayer.domain.usecases.RemoveTrackFromPlaylist
+import com.musicplayer.domain.usecases.UpdateTrackFields
 import org.koin.dsl.module
 
 val domainModule = module {
@@ -19,8 +20,8 @@ val domainModule = module {
     factory<AddTrackToTrackList> {
         AddTrackToTrackList(repository = get())
     }
-    factory<GetAllTracksOrderedByNames> {
-        GetAllTracksOrderedByNames(repository = get())
+    factory<GetAllTracksOrderedById> {
+        GetAllTracksOrderedById(repository = get())
     }
     factory<GetAllPlaylistsOrderedByNames> {
         GetAllPlaylistsOrderedByNames(repository = get())
@@ -40,7 +41,10 @@ val domainModule = module {
     factory<AddTrackToPlaylist> {
         AddTrackToPlaylist(repository = get())
     }
-    factory<SaveTrackFile> {
-        SaveTrackFile(repository = get())
+    factory<RemoveTrackFromPlaylist> {
+        RemoveTrackFromPlaylist(repository = get())
+    }
+    factory<UpdateTrackFields> {
+        UpdateTrackFields(repository = get())
     }
 }

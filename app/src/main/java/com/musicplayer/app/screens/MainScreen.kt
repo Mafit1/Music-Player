@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -18,11 +19,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.musicplayer.app.navigation.BottomBar
 import com.musicplayer.app.navigation.BottomBarScreen
@@ -32,6 +35,8 @@ import com.musicplayer.app.viewmodels.FullTrackListViewModel
 import com.musicplayer.app.viewmodels.PlaylistsViewModel
 import com.musicplayer.app.viewmodels.SettingsViewModel
 import com.musicplayer.app.viewmodels.SharedPlayerViewModel
+import com.musicplayer.app.viewmodels.SinglePlaylistViewModel
+import com.musicplayer.domain.models.MusicTrackData
 import com.musicplayer.domain.models.PlaylistInfo
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -40,6 +45,7 @@ fun MainScreen(
     fullTrackListViewModel: FullTrackListViewModel,
     playlistsViewModel: PlaylistsViewModel,
     settingsViewModel: SettingsViewModel,
+    singlePlaylistViewModel: SinglePlaylistViewModel,
     sharedPlayerViewModel: SharedPlayerViewModel
 ) {
     val navController = rememberNavController()
@@ -47,10 +53,14 @@ fun MainScreen(
 
     val context = LocalContext.current
 
+    val isPlaying = sharedPlayerViewModel.isPlaying.collectAsState(initial = false).value
+
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenMultipleDocuments(),
         onResult = { uris ->
-            fullTrackListViewModel.handleSelectedUris(context, uris)
+            val tracks = mutableListOf<MusicTrackData>()
+            fullTrackListViewModel.handleSelectedUris(context, uris, tracks)
+            if (isPlaying) sharedPlayerViewModel.addTracks(tracks)
         }
     )
 
@@ -60,11 +70,11 @@ fun MainScreen(
             BottomBar(navController = navController, currentScreen = currentScreenTitle)
         },
         topBar = {
-            TopAppBar(
-                title = {Text(currentScreenTitle.value)},
-                actions = {
-                    when (currentScreenTitle.value) {
-                        BottomBarScreen.BottomBarFullTrackList.title -> {
+            when (currentScreenTitle.value) {
+                BottomBarScreen.BottomBarFullTrackList.title -> {
+                    TopAppBar(
+                        title = {Text("Моя медиатека")},
+                        actions = {
                             IconButton({
                                 launcher.launch(arrayOf("audio/mpeg"))
                             }) {
@@ -74,7 +84,12 @@ fun MainScreen(
                                 )
                             }
                         }
-                        BottomBarScreen.BottomBarPlaylists.title -> {
+                    )
+                }
+                BottomBarScreen.BottomBarPlaylists.title -> {
+                    TopAppBar(
+                        title = {Text("Мои плейлисты")},
+                        actions = {
                             IconButton({
                                 playlistsViewModel.addNewPlaylist(PlaylistInfo(name = "a", imageId = 1))
                             }) {
@@ -84,9 +99,14 @@ fun MainScreen(
                                 )
                             }
                         }
-                    }
+                    )
                 }
-            )
+                BottomBarScreen.BottomBarSettings.title -> {
+                    TopAppBar(
+                        title = {Text("Настройки")},
+                    )
+                }
+            }
         }
     ) { innerPadding ->
 
@@ -96,6 +116,7 @@ fun MainScreen(
             fullTrackListViewModel = fullTrackListViewModel,
             playlistsViewModel = playlistsViewModel,
             settingsViewModel = settingsViewModel,
+            singlePlaylistViewModel = singlePlaylistViewModel,
             sharedPlayerViewModel = sharedPlayerViewModel
         )
 

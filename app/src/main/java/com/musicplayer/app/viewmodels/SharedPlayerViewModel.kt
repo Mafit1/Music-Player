@@ -21,22 +21,29 @@ class SharedPlayerViewModel(
 
     fun playTrackAt(index: Int) {
         playerManagerRepository.playTrackAt(index)
+        playerManagerRepository.startUpdatingProgress()
     }
 
     fun pause() {
         playerManagerRepository.pause()
+        playerManagerRepository.stopUpdatingProgress()
     }
 
     fun play() {
         playerManagerRepository.play()
+        playerManagerRepository.startUpdatingProgress()
     }
 
     fun nextTrack() {
         playerManagerRepository.nextTrack()
+        playerManagerRepository.play()
+        playerManagerRepository.startUpdatingProgress()
     }
 
     fun previousTrack() {
         playerManagerRepository.previousTrack()
+        playerManagerRepository.play()
+        playerManagerRepository.startUpdatingProgress()
     }
 
     fun seekTo(positionMs: Long) {
@@ -61,6 +68,14 @@ class SharedPlayerViewModel(
 
     fun setPlaylist(tracks: List<MusicTrackData>) {
         playerManagerRepository.setPlaylist(tracks)
+    }
+
+    fun addTrack(track: MusicTrackData) {
+        playerManagerRepository.addTrack(track)
+    }
+
+    fun addTracks(tracks: List<MusicTrackData>) {
+        playerManagerRepository.addTracks(tracks)
     }
 
     override fun onCleared() {

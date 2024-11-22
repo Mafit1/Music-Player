@@ -6,8 +6,6 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Upsert
 import com.musicplayer.data.models.MusicTrackEntity
-import com.musicplayer.data.models.PlaylistEntity
-import com.musicplayer.domain.models.MusicTrackData
 import kotlinx.coroutines.flow.Flow
 
 @Dao

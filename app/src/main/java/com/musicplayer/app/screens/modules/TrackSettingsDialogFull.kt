@@ -1,4 +1,4 @@
-package com.musicplayer.app.screens
+package com.musicplayer.app.screens.modules
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -38,10 +38,10 @@ import com.musicplayer.domain.models.MusicTrackData
 import com.musicplayer.domain.models.PlaylistInfo
 
 @Composable
-fun TrackSettingsDialog(
+fun TrackSettingsDialogFull(
     track: MusicTrackData,
-    onDismissRequest: () -> Unit,
-    fullTrackListViewModel: FullTrackListViewModel
+    fullTrackListViewModel: FullTrackListViewModel,
+    onDismissRequest: () -> Unit
 ) {
     var playlistSelectDialog by remember { mutableStateOf(false) }
     var deleteConfirmation by remember { mutableStateOf(false) }
@@ -288,7 +288,7 @@ private fun PlaylistItem(
 }
 
 @Composable
-private fun SettingsItem(
+fun SettingsItem(
     text: String,
     image: ImageVector,
     onClick: () -> Unit,

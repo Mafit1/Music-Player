@@ -2,11 +2,13 @@ package com.musicplayer.app.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.musicplayer.domain.models.MusicTrackData
 import com.musicplayer.domain.models.PlaylistInfo
 import com.musicplayer.domain.usecases.AddTrackToPlaylist
 import com.musicplayer.domain.usecases.GetPlaylistById
 import com.musicplayer.domain.usecases.GetTracksFromPlaylistOrderedByNames
+import com.musicplayer.domain.usecases.RemoveTrackFromPlaylist
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,8 +21,8 @@ import kotlinx.coroutines.launch
 
 class SinglePlaylistViewModel(
     getTracksFromPlaylistOrderedByNames: GetTracksFromPlaylistOrderedByNames,
-    private val addTrackToPlaylist: AddTrackToPlaylist,
-    private val getPlaylistById: GetPlaylistById
+    private val getPlaylistById: GetPlaylistById,
+    private val removeTrackFromPlaylist: RemoveTrackFromPlaylist
 ) : ViewModel() {
 
     private val _playlist = MutableStateFlow<PlaylistInfo?>(null)
@@ -45,7 +47,8 @@ class SinglePlaylistViewModel(
         }
     }
 
-    fun addTrackToPlaylist(track: MusicTrackData, playlist: PlaylistInfo) = viewModelScope.launch {
-        addTrackToPlaylist.execute(track, playlist)
-    }
+    fun removeTrackFromPlaylist(track: MusicTrackData) =
+        viewModelScope.launch {
+            _playlist.value?.let { removeTrackFromPlaylist.execute(track, it) }
+        }
 }

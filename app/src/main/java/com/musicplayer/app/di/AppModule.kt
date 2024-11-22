@@ -39,8 +39,8 @@ val appModule = module {
     viewModel<SinglePlaylistViewModel> {
         SinglePlaylistViewModel(
             getTracksFromPlaylistOrderedByNames = get(),
-            addTrackToPlaylist = get(),
-            getPlaylistById = get()
+            getPlaylistById = get(),
+            removeTrackFromPlaylist = get()
         )
     }
 

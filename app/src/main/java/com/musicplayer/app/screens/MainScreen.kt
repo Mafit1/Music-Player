@@ -20,16 +20,20 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.musicplayer.R
 import com.musicplayer.app.navigation.BottomBar
 import com.musicplayer.app.navigation.BottomBarScreen
 import com.musicplayer.app.navigation.BottomNavGraph
+import com.musicplayer.app.screens.modules.CreatePlaylistDialog
 import com.musicplayer.app.screens.modules.PlayerBar
 import com.musicplayer.app.viewmodels.FullTrackListViewModel
 import com.musicplayer.app.viewmodels.PlaylistsViewModel
@@ -64,6 +68,19 @@ fun MainScreen(
         }
     )
 
+    var createPlaylistDialog by remember { mutableStateOf(false) }
+
+    if (createPlaylistDialog) {
+        CreatePlaylistDialog(
+            onConfirmRequest = { playlist ->
+                playlistsViewModel.addNewPlaylist(playlist)
+                createPlaylistDialog = false
+            },
+            onDismissRequest = {
+                createPlaylistDialog = false
+            }
+        )
+    }
 
     Scaffold(
         bottomBar = {
@@ -90,8 +107,8 @@ fun MainScreen(
                     TopAppBar(
                         title = {Text("Мои плейлисты")},
                         actions = {
-                            IconButton({
-                                playlistsViewModel.addNewPlaylist(PlaylistInfo(name = "a", imageId = 1))
+                            IconButton(onClick = {
+                                createPlaylistDialog = true
                             }) {
                                 Icon(
                                     Icons.Default.Add,

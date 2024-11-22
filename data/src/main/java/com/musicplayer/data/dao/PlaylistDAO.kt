@@ -20,7 +20,10 @@ interface PlaylistDAO {
     suspend fun upsertPlaylistMusicTrackCrossRef(crossRef: PlaylistMusicTrackCrossRef)
 
     @Delete
-    suspend fun deletePlaylist(playlistIdEntity: PlaylistEntity)
+    suspend fun deletePlaylist(playlistEntity: PlaylistEntity)
+
+    @Query("DELETE FROM playlist_music_track_cross_ref WHERE playlist_id = :playlistId")
+    suspend fun deleteCrossRefsByPlaylistId(playlistId: Int)
 
     @Query("DELETE FROM playlist_music_track_cross_ref WHERE music_track_id = :trackId AND playlist_id = :playlistId")
     suspend fun removeTrackFromPlaylist(trackId: Int, playlistId: Int)
@@ -34,7 +37,7 @@ interface PlaylistDAO {
 
     @Transaction
     @Query("SELECT * FROM playlist_table WHERE playlist_id = :playlistId")
-    fun getPlaylistWithTracksOrderedByNames(playlistId: Int): Flow<PlaylistWithTracksEntity>
+    fun getPlaylistWithTracksOrderedByNames(playlistId: Int): Flow<PlaylistWithTracksEntity?>
 
     @Transaction
     @Query("SELECT * FROM playlist_table WHERE playlist_id = :playlistId")

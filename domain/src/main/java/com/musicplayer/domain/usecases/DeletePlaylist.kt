@@ -5,6 +5,6 @@ import com.musicplayer.domain.repositories.PlaylistRepository
 
 class DeletePlaylist(private val repository: PlaylistRepository) {
     suspend fun execute(playlistToDelete: PlaylistInfo) {
-        return repository.deletePlaylist(playlistToDelete)
+        repository.deletePlaylist(playlistToDelete)
     }
 }

@@ -1,6 +1,5 @@
 package com.musicplayer.app.screens
 
-import android.util.Log
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -15,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.Player
 import com.musicplayer.app.screens.modules.ItemMusicTrack
+import com.musicplayer.app.screens.modules.TrackSettingsDialogFull
 import com.musicplayer.app.viewmodels.FullTrackListViewModel
 import com.musicplayer.app.viewmodels.SharedPlayerViewModel
 import com.musicplayer.domain.models.MusicTrackData
@@ -33,10 +33,12 @@ fun FullTrackListScreen(
         sharedPlayerViewModel.currentPlayerState.collectAsState(initial = Player.STATE_READY).value
 
     var trackSettingsDialog by remember { mutableStateOf(false) }
-    var selectedTrack by remember { mutableStateOf(MusicTrackData(name = "", author = "", duration = 0)) }
+    var selectedTrack by remember {
+        mutableStateOf(MusicTrackData(name = "", author = "", duration = 0))
+    }
 
     if (trackSettingsDialog) {
-        TrackSettingsDialog(
+        TrackSettingsDialogFull(
             track = selectedTrack,
             fullTrackListViewModel = fullTrackListViewModel,
             onDismissRequest = {
@@ -50,20 +52,19 @@ fun FullTrackListScreen(
             .padding(paddingValues)
             .padding(bottom = 150.dp)
     ) {
-        itemsIndexed(trackList) { index, item ->
+        itemsIndexed(trackList) { index, track ->
             val trackIsPlaying =
                 index == currentTrackIndex && currentPlayerState == Player.STATE_READY
             ItemMusicTrack(
-                musicTrackData = item,
+                musicTrackData = track,
                 index = index + 1,
                 onClick = {
                     sharedPlayerViewModel.setPlaylist(trackList)
                     sharedPlayerViewModel.playTrackAt(index)
-                    Log.d("myMusicPlayer", item.toString())
                 },
                 settingsOnClick = {
                     trackSettingsDialog = true
-                    selectedTrack = item
+                    selectedTrack = track
                 },
                 isPlaying = trackIsPlaying
             )

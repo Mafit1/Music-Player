@@ -3,39 +3,56 @@ package com.musicplayer.app.navigation
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.musicplayer.R
+import com.musicplayer.app.screens.FullTrackListScreenObject
+import com.musicplayer.app.screens.PlaylistsScreenObject
+import com.musicplayer.app.screens.SettingsScreenObject
 
 @Composable
 fun BottomBar(
     navController: NavHostController,
-    currentScreen: MutableState<String>
+    currentDestinationRoute: String?
 ) {
-    val screens = listOf(
-        BottomBarScreen.BottomBarFullTrackList,
-        BottomBarScreen.BottomBarPlaylists,
-        BottomBarScreen.BottomBarSettings
-    )
     androidx.compose.material3.BottomAppBar {
-        val backStackEntry by navController.currentBackStackEntryAsState()
-        val currentRoute = backStackEntry?.destination?.route
-        screens.forEach { item ->
-            NavigationBarItem(
-                selected = currentRoute == item.route,
-                onClick = {
-                    navController.navigate(item.route)
-                    currentScreen.value = item.title
-                },
-                icon = {
-                    Icon(
-                        painter = painterResource(id = item.icon),
-                        contentDescription = null
-                    )
-                }
-            )
-        }
+        NavigationBarItem(
+            onClick = {
+                navController.navigate(FullTrackListScreenObject)
+            },
+            icon = {
+                Icon(
+                    painter = painterResource(R.drawable.baseline_audiotrack_24),
+                    contentDescription = null
+                )
+            },
+            selected = currentDestinationRoute == "com.musicplayer.app.screens.FullTrackListScreenObject"
+        )
+        NavigationBarItem(
+            onClick = {
+                navController.navigate(PlaylistsScreenObject)
+            },
+            icon = {
+                Icon(
+                    painter = painterResource(R.drawable.baseline_format_list_bulleted_24),
+                    contentDescription = null
+                )
+            },
+            selected = currentDestinationRoute == "com.musicplayer.app.screens.PlaylistsScreenObject"
+        )
+        NavigationBarItem(
+            onClick = {
+                navController.navigate(SettingsScreenObject)
+            },
+            icon = {
+                Icon(
+                    painter = painterResource(R.drawable.baseline_settings_24),
+                    contentDescription = null
+                )
+            },
+            selected = currentDestinationRoute == "com.musicplayer.app.screens.SettingsScreenObject"
+        )
     }
 }

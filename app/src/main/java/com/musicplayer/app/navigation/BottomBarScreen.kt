@@ -1,10 +1,5 @@
 package com.musicplayer.app.navigation
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.Star
-import androidx.compose.ui.graphics.vector.ImageVector
 import com.example.musicplayer.R
 
 sealed class BottomBarScreen (

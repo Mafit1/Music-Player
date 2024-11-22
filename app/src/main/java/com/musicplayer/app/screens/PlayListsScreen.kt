@@ -13,7 +13,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import com.musicplayer.app.screens.modules.PlayList
 import com.musicplayer.app.screens.modules.PlaylistSettingsDialog
 import com.musicplayer.app.viewmodels.PlaylistsViewModel
@@ -23,7 +22,7 @@ import com.musicplayer.domain.models.PlaylistInfo
 fun PlayListsScreen(
     viewModel: PlaylistsViewModel,
     paddingValues: PaddingValues,
-    navController: NavHostController
+    onPlaylistClick: () -> Unit
 ) {
     val listOfPlaylists = viewModel.getAllPlaylistsOrderedByNames().collectAsState(initial = emptyList()).value
 
@@ -50,7 +49,10 @@ fun PlayListsScreen(
         itemsIndexed(listOfPlaylists) { _, playlist ->
             PlayList(
                 playListInfo = playlist,
-                onClick = {navController.navigate("playlist_detail/${playlist.id}")},
+                onClick = {
+                    viewModel.currentPlaylistId = playlist.id
+                    onPlaylistClick()
+                },
                 settingsOnClick = {
                     selectedPlaylist = playlist
                     settingsDialog = true

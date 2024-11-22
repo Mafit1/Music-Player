@@ -43,12 +43,12 @@ import com.musicplayer.domain.models.PlaylistInfo
 
 @Composable
 fun SinglePlayListScreen(
-    playlistId: Int,
+    playlistId: Int?,
     singlePlaylistViewModel: SinglePlaylistViewModel,
     sharedPlayerViewModel: SharedPlayerViewModel
 ) {
     LaunchedEffect(Unit) {
-        singlePlaylistViewModel.setPlaylist(playlistId)
+        if (playlistId != null) singlePlaylistViewModel.setPlaylist(playlistId)
     }
 
     val playlist by singlePlaylistViewModel.playlist.collectAsState()

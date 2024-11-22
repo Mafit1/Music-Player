@@ -15,6 +15,8 @@ class PlaylistsViewModel(
     private val deletePlaylist: DeletePlaylist
 ) : ViewModel() {
 
+    var currentPlaylistId: Int? = null
+
     fun getAllPlaylistsOrderedByNames() : Flow<List<PlaylistInfo>> {
         return getAllPlaylistsOrderedByNames.execute()
     }

@@ -26,27 +26,27 @@ fun BottomNavGraph(
     singlePlaylistViewModel: SinglePlaylistViewModel,
     sharedPlayerViewModel: SharedPlayerViewModel
 ) {
-    NavHost(
-        navController = navController,
-        startDestination = BottomBarScreen.BottomBarFullTrackList.route
-    ) {
-        composable(route = BottomBarScreen.BottomBarFullTrackList.route) {
-            FullTrackListScreen(fullTrackListViewModel, sharedPlayerViewModel, paddingValues)
-        }
-        composable(route = BottomBarScreen.BottomBarPlaylists.route) {
-            PlayListsScreen(playlistsViewModel, paddingValues, navController)
-        }
-        composable(route = BottomBarScreen.BottomBarSettings.route) {
-            SettingsScreen(settingsViewModel)
-        }
-        composable(route = "playlist_detail/{playlistId}") { backStackEntry ->
-            val playlistId = backStackEntry.arguments?.getString("playlistId")?.toIntOrNull()
-            if (playlistId != null) SinglePlayListScreen(
-                playlistId = playlistId,
-                singlePlaylistViewModel = singlePlaylistViewModel,
-                sharedPlayerViewModel = sharedPlayerViewModel
-            )
-            else Text("Invalid Playlist ID")
-        }
-    }
+//    NavHost(
+//        navController = navController,
+//        startDestination = BottomBarScreen.BottomBarFullTrackList.route
+//    ) {
+//        composable(route = BottomBarScreen.BottomBarFullTrackList.route) {
+//            FullTrackListScreen(fullTrackListViewModel, sharedPlayerViewModel, paddingValues)
+//        }
+//        composable(route = BottomBarScreen.BottomBarPlaylists.route) {
+//            PlayListsScreen(playlistsViewModel, paddingValues, navController)
+//        }
+//        composable(route = BottomBarScreen.BottomBarSettings.route) {
+//            SettingsScreen(settingsViewModel)
+//        }
+//        composable(route = "playlist_detail") { backStackEntry ->
+//            val playlistId = backStackEntry.arguments?.getString("playlistId")?.toIntOrNull()
+//            if (playlistId != null) SinglePlayListScreen(
+//                playlistId = playlistId,
+//                singlePlaylistViewModel = singlePlaylistViewModel,
+//                sharedPlayerViewModel = sharedPlayerViewModel
+//            )
+//            else Text("Invalid Playlist ID")
+//        }
+//    }
 }

@@ -8,6 +8,14 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 
+tasks.test{
+    useJUnitPlatform()
+}
+
 dependencies {
     implementation(libs.kotlinx.coroutines.android)
+
+    testImplementation(libs.junit.jupiter)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.kotlin)
 }

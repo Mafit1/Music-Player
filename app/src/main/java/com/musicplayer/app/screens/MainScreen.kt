@@ -149,7 +149,8 @@ fun MainScreen(
             }
             composable<SettingsScreenObject> {
                 SettingsScreen(
-                    viewModel = settingsViewModel
+                    viewModel = settingsViewModel,
+                    paddingValues = innerPadding
                 )
             }
             composable<SinglePlaylistScreenObject> {

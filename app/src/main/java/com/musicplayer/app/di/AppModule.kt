@@ -32,7 +32,7 @@ val appModule = module {
 
     viewModel<SettingsViewModel> {
         SettingsViewModel(
-
+            addNewPlaylist = get()
         )
     }
 

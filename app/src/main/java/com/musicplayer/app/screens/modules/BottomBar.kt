@@ -1,12 +1,10 @@
-package com.musicplayer.app.navigation
+package com.musicplayer.app.screens.modules
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.musicplayer.R
 import com.musicplayer.app.screens.FullTrackListScreenObject
 import com.musicplayer.app.screens.PlaylistsScreenObject

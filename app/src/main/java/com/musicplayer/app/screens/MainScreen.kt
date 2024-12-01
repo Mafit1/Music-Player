@@ -28,9 +28,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.musicplayer.app.navigation.BottomBar
-import com.musicplayer.app.navigation.BottomBarScreen
-import com.musicplayer.app.navigation.BottomNavGraph
+import com.musicplayer.app.screens.modules.BottomBar
 import com.musicplayer.app.screens.modules.CreatePlaylistDialog
 import com.musicplayer.app.screens.modules.PlayerBar
 import com.musicplayer.app.viewmodels.FullTrackListViewModel
@@ -161,16 +159,6 @@ fun MainScreen(
                 )
             }
         }
-
-//        BottomNavGraph(
-//            navController = navController,
-//            paddingValues = innerPadding,
-//            fullTrackListViewModel = fullTrackListViewModel,
-//            playlistsViewModel = playlistsViewModel,
-//            settingsViewModel = settingsViewModel,
-//            singlePlaylistViewModel = singlePlaylistViewModel,
-//            sharedPlayerViewModel = sharedPlayerViewModel
-//        )
 
         Column(
             modifier = Modifier
